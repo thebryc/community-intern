@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRYC — Noah's Summer Guide</title>
+<link rel="stylesheet" href="https://use.typekit.net/hte4vgd.css">
+<style>
+  :root {
+    --pink: #ed125f;
+    --pink-light: #c40f50;
+    --pink-pale: #fde8f0;
+    --gold: #B8860B;
+    --gold-light: #e9c46a;
+    --gold-pale: #fdf3d0;
+    --cream: #faf8f3;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --border: #e0dbd0;
+    --white: #ffffff;
+    --red: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: 'proxima-nova', sans-serif; background: var(--cream); color: var(--text); font-size: 15px; line-height: 1.65; }
+
+  header {
+    background: var(--pink); padding: 0 2rem;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-badge { width: 32px; height: 32px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--white); }
+  .logo-text { font-size: 14px; font-weight: 700; letter-spacing: 0.04em; color: var(--white); }
+  .logo-sub { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  nav { display: flex; gap: 4px; }
+  nav button { background: none; border: none; color: rgba(255,255,255,0.75); font-family: 'proxima-nova', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  nav button:hover { background: rgba(255,255,255,0.12); color: white; }
+  nav button.active { background: var(--gold); color: white; }
+
+  main { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .page { display: none; animation: fadeIn 0.2s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+  /* HERO */
+  .hero { background: var(--pink); border-radius: 16px; padding: 2.5rem 2.5rem 2rem; color: white; margin-bottom: 2rem; position: relative; overflow: hidden; }
+  .hero::before { content:''; position:absolute; right:-30px; top:-30px; width:200px; height:200px; border-radius:50%; background:rgba(184,134,11,0.15); }
+  .hero::after { content:''; position:absolute; right:60px; bottom:-40px; width:120px; height:120px; border-radius:50%; background:rgba(184,134,11,0.1); }
+  .hero-eyebrow { font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light); font-weight:700; margin-bottom:8px; }
+  .hero h1 { font-size:2.2rem; line-height:1.2; font-weight:700; margin-bottom:12px; }
+  .hero p { color:rgba(255,255,255,0.8); font-size:15px; max-width:520px; margin-bottom:1.5rem; }
+  .contact-strip { display:flex; gap:10px; flex-wrap:wrap; }
+  .contact-chip { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:8px 14px; font-size:13px; color:white; }
+  .contact-chip strong { display:block; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-light); margin-bottom:2px; }
+
+  /* TYPE */
+  .section-label { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); font-weight:700; margin-bottom:6px; }
+  h2 { font-size:1.5rem; font-weight:700; color:var(--pink); margin-bottom:1.25rem; }
+  h3 { font-size:14px; font-weight:700; color:var(--text); margin-bottom:8px; }
+
+  /* CARDS */
+  .card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1rem; }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+  .pillar { border-radius:10px; padding:14px 16px; }
+  .pillar-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; }
+  .pillar ul { font-size:13px; padding-left:1.1rem; line-height:2; color:var(--text-muted); }
+
+  /* TAGS */
+  .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:2px 8px; border-radius:4px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
+  .tag-pink { background:#fce4ec; color:#880e4f; }
+  .tag-orange { background:#fff3e0; color:#e65100; }
+  .tag-green { background:#e8f5e9; color:#1b5e20; }
+  .tag-teal { background:#e0f7fa; color:#006064; }
+  .tag-yellow { background:var(--gold-pale); color:#7a5800; }
+  .tag-gray { background:#f0f0f0; color:#444; }
+
+  /* CALENDAR TOOLBAR */
+  .cal-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px;
+  }
+
+  .view-toggle {
+    display: flex; background: var(--white);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  }
+
+  .view-toggle button {
+    font-family: 'proxima-nova', sans-serif; font-size: 12px; font-weight: 600;
+    padding: 7px 16px; border: none; background: none; cursor: pointer;
+    color: var(--text-muted); transition: all 0.15s; letter-spacing: 0.02em;
+  }
+
+  .view-toggle button.active { background: var(--pink); color: white; }
+
+  /* LIST VIEW */
+  .month-header { display:flex; align-items:center; gap:12px; margin:2rem 0 1rem; }
+  .month-pill { background:var(--pink); color:white; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 14px; border-radius:20px; }
+  .month-line { flex:1; height:1px; background:var(--border); }
+
+  .cal-row { display:grid; grid-template-columns:90px 1fr; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:8px; background:var(--white); }
+  .cal-date { background:var(--pink); color:white; padding:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:70px; }
+  .cal-date .day-num { font-size:1.8rem; line-height:1; font-weight:700; }
+  .cal-date .day-name { font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-top:2px; }
+  .cal-content { padding:12px 16px; }
+  .cal-event { display:flex; align-items:flex-start; gap:8px; margin-bottom:6px; font-size:13.5px; }
+  .cal-event:last-child { margin-bottom:0; }
+
+  /* MONTHLY GRID VIEW */
+  #monthly-view { display: none; }
+
+  .month-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .month-nav-title { font-size: 1rem; font-weight: 700; color: var(--pink); }
+
+  .month-nav-btn {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 14px; cursor: pointer;
+    font-family: 'proxima-nova', sans-serif; font-size: 13px; font-weight: 600;
+    color: var(--text-muted); transition: all 0.15s;
+  }
+
+  .month-nav-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+  .month-grid-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    text-align: center; margin-bottom: 4px;
+  }
+
+  .month-grid-header span { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); padding: 6px 0; }
+
+  .month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+
+  .month-cell {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; min-height: 80px; padding: 6px;
+    font-size: 12px; cursor: pointer; transition: border-color 0.15s;
+    position: relative;
+  }
+
+  .month-cell:hover { border-color: var(--pink); }
+  .month-cell.other-month { background: #f5f3ef; opacity: 0.5; }
+  .month-cell.today { border-color: var(--pink); border-width: 2px; }
+
+  .cell-date {
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+    margin-bottom: 3px; display: block;
+  }
+
+  .month-cell.today .cell-date { color: var(--pink); }
+
+  .cell-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; margin: 1px;
+  }
+
+  .cell-event-label {
+    font-size: 10px; font-weight: 600; color: var(--white);
+    background: var(--pink); border-radius: 3px;
+    padding: 1px 5px; margin-bottom: 2px; display: block;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    line-height: 1.5;
+  }
+
+  .cell-event-label.ev-orange { background: #e65100; }
+  .cell-event-label.ev-green { background: #1b5e20; }
+  .cell-event-label.ev-teal { background: #006064; }
+  .cell-event-label.ev-yellow { background: #7a5800; }
+  .cell-event-label.ev-gray { background: #888; }
+
+  /* SITUATIONS */
+  .situation-card { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .situation-header { padding:14px 18px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; user-select:none; transition:background 0.15s; }
+  .situation-header:hover { background:#f9f7f3; }
+  .situation-header.expanded { border-bottom:1px solid var(--border); }
+  .situation-title { display:flex; align-items:center; gap:10px; font-size:14px; font-weight:600; }
+  .urgency-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .urgency-high { background:var(--red); }
+  .urgency-med { background:var(--gold); }
+  .urgency-low { background:#2d9e5f; }
+  .chevron { font-size:11px; color:var(--text-muted); transition:transform 0.2s; }
+  .chevron.open { transform:rotate(180deg); }
+  .situation-body { display:none; padding:16px 18px; font-size:14px; line-height:1.7; color:var(--text-muted); }
+  .situation-body.open { display:block; }
+  .situation-body ol, .situation-body ul { padding-left:1.2rem; margin:8px 0; }
+  .situation-body li { margin-bottom:4px; }
+  .note-pink { background:var(--pink-pale); border-left:3px solid var(--pink); border-radius:0 6px 6px 0; padding:8px 12px; margin-top:10px; font-size:13px; color:var(--pink); font-weight:600; }
+  .note-gold { background:var(--gold-pale); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; padding:8px 12px; margin-top:10px; font-size:13px; color:#7a5800; }
+
+  /* ALERT */
+  .alert-bar { background:var(--gold-pale); border:1px solid var(--gold-light); border-radius:10px; padding:12px 16px; font-size:13.5px; color:#5c3d00; margin-bottom:1.5rem; display:flex; gap:10px; align-items:flex-start; }
+  .alert-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+
+  /* FORMS */
+  .add-form { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; }
+  .form-row { margin-bottom:1rem; }
+  label { display:block; font-size:11px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+  input[type="text"], input[type="url"], input[type="date"], textarea, select {
+    width:100%; font-family:'proxima-nova',sans-serif; font-size:14px; padding:10px 12px;
+    border:1px solid var(--border); border-radius:8px; color:var(--text); background:var(--cream); transition:border-color 0.15s;
+  }
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--pink); background:white; }
+  textarea { min-height:80px; resize:vertical; line-height:1.6; }
+  .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1rem; }
+
+  .urgency-row { display:flex; gap:8px; }
+  .urgency-opt { flex:1; text-align:center; padding:8px; border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:13px; font-weight:500; transition:all 0.15s; }
+  .urgency-opt:hover { border-color:var(--pink); }
+  .urgency-opt.selected { border-color:var(--pink); background:var(--pink-pale); color:var(--pink); }
+
+  .btn { font-family:'proxima-nova',sans-serif; font-size:13px; font-weight:700; padding:9px 20px; border-radius:8px; cursor:pointer; transition:all 0.15s; border:none; }
+  .btn-primary { background:var(--pink); color:white; }
+  .btn-primary:hover { background:var(--pink-light); }
+
+  /* LINKS SECTION */
+  .link-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; margin-bottom:1.5rem; }
+
+  .link-card {
+    background:var(--white); border:1px solid var(--border);
+    border-radius:10px; padding:14px 16px;
+    display:flex; align-items:flex-start; gap:12px;
+    text-decoration:none; color:var(--text);
+    transition:border-color 0.15s, box-shadow 0.15s;
+    cursor:pointer;
+  }
+
+  .link-card:hover { border-color:var(--pink); box-shadow:0 2px 8px rgba(237,18,95,0.1); }
+
+  .link-icon {
+    width:36px; height:36px; border-radius:8px;
+    background:var(--pink-pale); color:var(--pink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; flex-shrink:0;
+  }
+
+  .link-info { flex:1; min-width:0; }
+  .link-title { font-size:13.5px; font-weight:700; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .link-desc { font-size:12px; color:var(--text-muted); line-height:1.4; }
+  .link-url { font-size:11px; color:var(--pink); margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  .link-category-header { display:flex; align-items:center; gap:10px; margin:1.5rem 0 0.75rem; }
+  .link-cat-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-muted); }
+  .link-cat-line { flex:1; height:1px; background:var(--border); }
+
+  .legend { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.25rem; font-size:12px; color:var(--text-muted); }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+
+  .divider { height:1px; background:var(--border); margin:2rem 0; }
+
+  @media (max-width:600px) {
+    nav button span { display:none; }
+    .hero h1 { font-size:1.6rem; }
+    header { padding:0 1rem; }
+    main { padding:1.5rem 1rem 3rem; }
+    .form-row-2 { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">B</div>
+    <div>
+      <div class="logo-text">BRYC</div>
+      <div class="logo-sub">Intern Reference</div>
+    </div>
+  </div>
+  <nav>
+    <button class="active" onclick="showPage('home',this)"><span>🏠 </span>Home</button>
+    <button onclick="showPage('calendar',this)"><span>📅 </span>Calendar</button>
+    <button onclick="showPage('situations',this)"><span>⚡ </span>Situations</button>
+    <button onclick="showPage('links',this)"><span>🔗 </span>Links</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-eyebrow">Summer 2026 · BRYC Community Programs</div>
+    <h1>Welcome, Noah.</h1>
+    <p>Everything you need for your first summer — your role, your calendar, what to do when things come up, and quick links to the tools you'll use every day.</p>
+    <div class="contact-strip">
+      <div class="contact-chip"><strong>Day-to-Day Manager</strong>Angela · Community Engagement</div>
+      <div class="contact-chip"><strong>Overall Reports To</strong>Deputy Chief of Staff</div>
+      <div class="contact-chip"><strong>Angela in Philippines</strong>May 24 – June 8 · 13 hrs ahead</div>
+      <div class="contact-chip"><strong>Pay</strong>$15/hr · Hybrid, Baton Rouge</div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-top:3px solid var(--pink);cursor:pointer;" onclick="showPage('calendar',document.querySelector('nav button:nth-child(2)'))">
+      <div class="section-label">This Week & Beyond</div>
+      <h3>Summer Calendar</h3>
+      <p style="font-size:13.5px;color:var(--text-muted);">Your full schedule May–October with list and monthly grid views.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold);cursor:pointer;" onclick="showPage('situations',document.querySelector('nav button:nth-child(3)'))">
+      <div class="section-label">When Things Come Up</div>
+      <h3>Situation Guide</h3>
+      <p style="font-size:13.5px;color:var(--text-muted);">Step-by-step instructions for scenarios most likely to arise while Angela is away.</p>
+    </div>
+    <div class="card" style="border-top:3px solid #1a6fa8;cursor:pointer;" onclick="showPage('links',document.querySelector('nav button:nth-child(4)'))">
+      <div class="section-label">Tools & Resources</div>
+      <h3>Links</h3>
+      <p style="font-size:13.5px;color:var(--text-muted);">Quick access to everything you need — drives, platforms, docs, and logins.</p>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:6px;">Your Role</div>
+  <div class="card" style="margin-bottom:1rem;">
+    <h3 style="font-size:15px;margin-bottom:4px;">Community Engagement & Communications Intern</h3>
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:1.25rem;">You're supporting volunteer recruitment, social media, and community engagement during BRYC's highest-output season. Summer is when the whole year gets built — you're part of making that happen.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;">
+      <div class="pillar" style="background:var(--pink-pale);">
+        <div class="pillar-label" style="color:var(--pink);">Volunteer RAM</div>
+        <ul><li>Outreach to companies & orgs</li><li>Update volunteer CRM</li><li>Support intake & onboarding</li><li>Distribute welcome kits</li><li>Assist volunteer events</li></ul>
+      </div>
+      <div class="pillar" style="background:var(--gold-pale);">
+        <div class="pillar-label" style="color:#7a5800;">Social Media & Comms</div>
+        <ul><li>Content creation & scheduling</li><li>Surface stories & milestones</li><li>Email & community outreach</li></ul>
+      </div>
+      <div class="pillar" style="background:#f0f4ff;">
+        <div class="pillar-label" style="color:#1a3a8f;">Operations & Admin</div>
+        <ul><li>Facilities setup & space prep</li><li>Fellow event preparation</li><li>Support CEO, CoS, Deputy CoS</li><li>Training logistics & errands</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:6px;">About BRYC</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:1rem;">The Baton Rouge Youth Coalition serves economically disadvantaged students in grades 8–12 and beyond — walking alongside them from middle school through their first job. Fellows participate in grade-specific, after-school programming one evening per week at the Downtown or Airline Highway campus.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;">
+      <div style="background:var(--cream);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:1.6rem;font-weight:800;color:var(--pink);">920+</div><div style="font-size:12px;color:var(--text-muted);">Alumni</div></div>
+      <div style="background:var(--cream);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:1.6rem;font-weight:800;color:var(--pink);">84%</div><div style="font-size:12px;color:var(--text-muted);">Postsecondary persistence</div></div>
+      <div style="background:var(--cream);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:1.6rem;font-weight:800;color:var(--pink);">500+</div><div style="font-size:12px;color:var(--text-muted);">At-BRYC Fellows this fall</div></div>
+      <div style="background:var(--cream);border-radius:8px;padding:12px;text-align:center;"><div style="font-size:1.6rem;font-weight:800;color:var(--pink);">500</div><div style="font-size:12px;color:var(--text-muted);">Seniors in advising</div></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:6px;">Calendar Color Key</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><span class="tag tag-pink">Community</span> Pink Family</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><span class="tag tag-orange">Social Media</span> Orange Family</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><span class="tag tag-green">Volunteers</span> Green Family</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><span class="tag tag-teal">HS Seniors</span> Teal Family</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;"><span class="tag tag-yellow">Fellows</span> Yellow Family</div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="page" id="page-calendar">
+  <div class="section-label">May – October 2026</div>
+  <h2>Summer Calendar</h2>
+
+  <div class="cal-toolbar">
+    <div class="legend" style="margin-bottom:0;">
+      <div class="legend-item"><span class="tag tag-pink" style="font-size:9px;">■</span> Community</div>
+      <div class="legend-item"><span class="tag tag-orange" style="font-size:9px;">■</span> Social</div>
+      <div class="legend-item"><span class="tag tag-green" style="font-size:9px;">■</span> Volunteers</div>
+      <div class="legend-item"><span class="tag tag-teal" style="font-size:9px;">■</span> Seniors</div>
+      <div class="legend-item"><span class="tag tag-yellow" style="font-size:9px;">■</span> Fellows</div>
+    </div>
+    <div class="view-toggle">
+      <button class="active" id="btn-list" onclick="setCalView('list')">List</button>
+      <button id="btn-month" onclick="setCalView('month')">Monthly</button>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div id="list-view">
+
+    <div class="month-header"><span class="month-pill">May</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">5</div><div class="day-name">Tue</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-yellow">Fellows</span> Symposium Recap Reel</div>
+        <div class="cal-event"><span class="tag tag-yellow">Fellows</span> Fellowship Formal Recap Carousel</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date" style="background:var(--pink-light);"><div class="day-num">12</div><div class="day-name">Tue</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-gray">Start</span> <strong>Noah's first day — Onboarding begins</strong></div>
+        <div class="cal-event"><span class="tag tag-yellow">Fellows</span> Fellow Block Party</div>
+        <div class="cal-event"><span class="tag tag-gray">Grad</span> SU Graduation / LSU Graduation</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">15</div><div class="day-name">Fri</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-gray">Admin</span> Send thank yous to mentors who attended Block Party</div>
+        <div class="cal-event"><span class="tag tag-orange">Social</span> Block Party Recap Post</div>
+        <div class="cal-event"><span class="tag tag-teal">Seniors</span> Create graduation post template; create folder with all HS logos</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">17</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Post-Secondary Touchpoint — update returning yes/maybes in microsite</div>
+        <div class="cal-event"><span class="tag tag-gray">Grad</span> BRCC Graduation</div>
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Touchpoint with Colleges/Universities (table at Welcome Week)</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">18–22</div><div class="day-name">Mon–Fri</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-teal">Seniors</span> Post graduation batches by date</div>
+        <div class="cal-event" style="font-size:12.5px;color:var(--text-muted);padding-left:4px;line-height:1.9;">
+          5/18: West Feliciana, Port Allen, Helix, MSA East, Livonia, St. Michael, Brusly, Slaughter Charter<br>
+          5/19: Denham Springs, LSU Lab, Scotlandville, Catholic High, Collegiate BR, Madison Prep, St. Joseph's<br>
+          5/20: Broadmoor, SU Lab, Zachary, Walker<br>
+          5/21: McKinley, Baton Rouge Magnet<br>
+          5/22: Liberty High · Separate: Northeast, Jehovah-Jireh, Woodlawn, Dutchtown
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">24</div><div class="day-name">Sat</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-gray">Out</span> Angela leaves for Philippines — available 13 hrs ahead through June 8</div>
+      </div>
+    </div>
+
+    <div class="month-header"><span class="month-pill">June</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">7</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Community Partner + Prospect Touchpoint</div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Working on Bingo Logistics; finalize and order welcome gifts</div>
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Reach out to Community Partners (presentations / lunch and learns / tabling)</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">8</div><div class="day-name">Mon</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-gray">Return</span> Angela returns from Philippines</div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Finalize Bingo Logistics</div>
+        <div class="cal-event"><span class="tag tag-gray">Admin</span> Begin data cleanup, matching for assignments</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">14</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Reach out to confirm Farmers Market</div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Begin Bingo Invites to all Prospects and Returners</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">23</div><div class="day-name">Tue</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> TBD Westwood Lunch and Learn</div>
+      </div>
+    </div>
+
+    <div class="month-header"><span class="month-pill">July</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">5</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Order Bingo Prizes</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">12</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> <strong>Summer Recruitment Event</strong></div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Tent @ Red Stick Farmers Market (Main Library)</div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Setup for Bingo · <strong>Bingo Happy Hour</strong></div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">19</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Update Training Slides</div>
+      </div>
+    </div>
+
+    <div class="month-header"><span class="month-pill">August</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">2</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> <strong>DEADLINE: Finalize Training Slides</strong></div>
+        <div class="cal-event"><span class="tag tag-gray">School</span> EBR First Day of School</div>
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Decorate Downtown</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">9</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-teal">Seniors</span> <strong>Senior Startup</strong></div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">16</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-teal">Seniors</span> Full First Week</div>
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Tent @ Red Stick Farmers Market (Downtown)</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">23</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> <strong>Volunteer Training — In-Person (Airline)</strong></div>
+      </div>
+    </div>
+
+    <div class="month-header"><span class="month-pill">September</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">1</div><div class="day-name">Tue</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Virtual Makeup Training</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">7</div><div class="day-name">Mon</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-gray">Closed</span> <strong>Labor Day — BRYC Closed</strong></div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">14</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> <strong>Volunteer Start — First Week of Mentors and Tutors</strong></div>
+        <div class="cal-event"><span class="tag tag-green">Volunteers</span> Volunteers receive welcome gifts</div>
+      </div>
+    </div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">21</div><div class="day-name">Sun</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> Begin planning October Happy Hour</div>
+      </div>
+    </div>
+
+    <div class="month-header"><span class="month-pill">October</span><div class="month-line"></div></div>
+
+    <div class="cal-row">
+      <div class="cal-date"><div class="day-num">~13</div><div class="day-name">Oct</div></div>
+      <div class="cal-content">
+        <div class="cal-event"><span class="tag tag-pink">Community</span> TBD Fall Happy Hour</div>
+      </div>
+    </div>
+
+    <!-- ADDED EVENTS WILL APPEAR HERE -->
+    <div id="added-events-list"></div>
+
+  </div>
+
+  <!-- MONTHLY VIEW -->
+  <div id="monthly-view">
+    <div class="month-nav">
+      <button class="month-nav-btn" onclick="changeMonth(-1)">← Prev</button>
+      <div class="month-nav-title" id="month-nav-title"></div>
+      <button class="month-nav-btn" onclick="changeMonth(1)">Next →</button>
+    </div>
+    <div class="month-grid-header">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+    <div class="month-grid" id="month-grid"></div>
+  </div>
+
+  <!-- ADD EVENT FORM -->
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add to Calendar</div>
+  <h2 style="margin-bottom:1rem;">Add an Event</h2>
+  <div class="add-form">
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Event Title</label>
+        <input type="text" id="ev-title" placeholder="e.g. Partner lunch at Westwood">
+      </div>
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Date</label>
+        <input type="date" id="ev-date">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:1rem;">
+      <label>Notes (optional)</label>
+      <textarea id="ev-notes" style="min-height:60px;" placeholder="Any details, location, prep needed..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>Category</label>
+      <div class="urgency-row">
+        <div class="urgency-opt selected" onclick="selectCategory('pink',this)" style="font-size:12px;">🩷 Community</div>
+        <div class="urgency-opt" onclick="selectCategory('orange',this)" style="font-size:12px;">🟠 Social</div>
+        <div class="urgency-opt" onclick="selectCategory('green',this)" style="font-size:12px;">🟢 Volunteers</div>
+        <div class="urgency-opt" onclick="selectCategory('teal',this)" style="font-size:12px;">🩵 Seniors</div>
+        <div class="urgency-opt" onclick="selectCategory('gray',this)" style="font-size:12px;">⚪ General</div>
+      </div>
+      <input type="hidden" id="ev-cat" value="pink">
+    </div>
+    <button class="btn btn-primary" onclick="addEvent()">Add to Calendar</button>
+  </div>
+</div>
+
+<!-- SITUATIONS -->
+<div class="page" id="page-situations">
+  <div class="section-label">When Things Come Up</div>
+  <h2>Situation Guide</h2>
+
+  <div class="alert-bar">
+    <div class="alert-icon">⚠️</div>
+    <div>Angela is in the Philippines May 24 – June 8 (13 hours ahead of BR time). For anything urgent, text her — she checks messages in her morning, which is your late evening. For anything that can wait, leave a note and she'll respond when she wakes up.</div>
+  </div>
+
+  <div class="legend" style="margin-bottom:1.25rem;">
+    <div class="legend-item"><span class="urgency-dot urgency-high" style="display:inline-block;"></span> Handle immediately</div>
+    <div class="legend-item"><span class="urgency-dot urgency-med" style="display:inline-block;"></span> Within 24 hrs</div>
+    <div class="legend-item"><span class="urgency-dot urgency-low" style="display:inline-block;"></span> Can wait / document</div>
+  </div>
+
+  <div id="situations-list">
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-high"></div> A social media post goes up with an error</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Take the post down immediately if it has a factual error, misspelled name, or wrong date.</li>
+          <li>Screenshot the error and your corrected version before deleting.</li>
+          <li>Fix it and re-post. If the error was public-facing, add a brief correction note.</li>
+          <li>Let Angela know what happened and how you handled it — even if fully resolved.</li>
+        </ol>
+        <div class="note-gold">⚠️ Don't delete posts just because engagement is low — only if there's an actual error.</div>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-high"></div> You don't know the answer to something a partner or prospect asks</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Don't guess. Say: "That's a great question — let me find the right information and get back to you by [time]."</li>
+          <li>Check the calendar and any planning docs in the shared drive first.</li>
+          <li>If you still can't find it, text Angela with the specifics.</li>
+        </ol>
+        <div class="note-pink">✅ A warm holding reply is always better than a wrong answer.</div>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-med"></div> A prospective volunteer fills out the interest form</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Log them in the volunteer CRM right away — name, contact info, org affiliation, date submitted.</li>
+          <li>Send a warm follow-up within 24 hours to acknowledge receipt and outline the next step.</li>
+          <li>Answer any questions you can from onboarding materials. Escalate anything you're unsure about to Angela.</li>
+          <li>Track where they are in the pipeline: Interested → Intake → Onboarded.</li>
+        </ol>
+        <div class="note-pink">✅ Prompt, personal outreach is what converts interest into actual volunteers.</div>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-med"></div> A community partner or prospect contacts BRYC directly</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Respond the same business day — even if just to acknowledge receipt.</li>
+          <li>Thank them for reaching out and let them know someone will follow up shortly.</li>
+          <li>Forward to Angela and note the date and contact name in the shared drive log.</li>
+          <li>If they have an urgent program question, pull from program overview materials before replying.</li>
+        </ol>
+        <div class="note-pink">✅ Partners notice how quickly you respond. First impressions matter here.</div>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-med"></div> You're not sure which graduation post to put up and when</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <p>The graduation post schedule is on the Calendar tab. Schools are grouped by graduation date — post on or just after that date.</p>
+        <ol>
+          <li>Use the graduation post template (in the shared folder with HS logos).</li>
+          <li>Double-check the school name spelling before posting.</li>
+          <li>If a school isn't on the list but you have their graduation info, flag it to Angela before posting separately.</li>
+        </ol>
+        <div class="note-gold">⚠️ Don't combine schools into one post — each school's community wants to see their name featured.</div>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-med"></div> A volunteer prospect goes quiet after initial interest</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Wait 5–7 business days after your last outreach before following up.</li>
+          <li>Send one warm, brief check-in: "Hi [Name] — just following up to see if you have any questions about volunteering with BRYC. We'd love to have you!"</li>
+          <li>If no response after a second follow-up, mark them as cold in the CRM and move on.</li>
+          <li>Log all attempts and dates in the CRM so there's a clear record.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-low"></div> You're not sure what to prioritize on a given day</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Check the Calendar tab for anything dated today or the next 2–3 days.</li>
+          <li>Hard-dated tasks (graduation posts, event setup, deadlines) come before open-ended work.</li>
+          <li>When in doubt: external-facing posts and outreach → volunteer pipeline → internal admin.</li>
+          <li>If you've handled everything time-sensitive, ask Angela what to move forward on next.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-low"></div> You need to prep or distribute volunteer welcome kits</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <ol>
+          <li>Confirm the kit contents with Angela before assembling — the list may change each season.</li>
+          <li>Check inventory against the list. Flag anything that needs to be ordered with enough lead time.</li>
+          <li>Kits go out when volunteers complete intake and are confirmed — not before.</li>
+          <li>Track distributions in the CRM or volunteer tracker so nothing gets sent twice.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="situation-card">
+      <div class="situation-header" onclick="toggleSituation(this)">
+        <div class="situation-title"><div class="urgency-dot urgency-low"></div> You're asked to help with a physical task or space setup</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="situation-body">
+        <p>This is a normal part of the role — setup, handiwork, space prep, and event logistics all fall under your responsibilities when the team needs it.</p>
+        <ol>
+          <li>Get clear on what's needed, where, and by when before you start.</li>
+          <li>For larger setups (Orientation, training rooms), ask for a checklist or walkthrough so nothing gets missed.</li>
+          <li>If something looks unsafe or beyond your ability to handle alone, say so — always okay to flag that.</li>
+        </ol>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <div class="section-label">Add a New Situation</div>
+    <h2 style="margin-bottom:1rem;">Add a Situation</h2>
+    <div class="add-form">
+      <div class="form-row">
+        <label>Situation / Scenario Title</label>
+        <input type="text" id="sit-title" placeholder="e.g. A Fellow misses an event and contacts you directly">
+      </div>
+      <div class="form-row">
+        <label>What To Do</label>
+        <textarea id="sit-body" placeholder="Step-by-step instructions, notes, who to contact..."></textarea>
+      </div>
+      <div class="form-row">
+        <label>Urgency Level</label>
+        <div class="urgency-row">
+          <div class="urgency-opt" onclick="selectUrgency('high',this)">🔴 Handle immediately</div>
+          <div class="urgency-opt selected" onclick="selectUrgency('med',this)">🟡 Within 24 hrs</div>
+          <div class="urgency-opt" onclick="selectUrgency('low',this)">🟢 Can wait</div>
+        </div>
+        <input type="hidden" id="sit-urgency" value="med">
+      </div>
+      <button class="btn btn-primary" onclick="addSituation()">Add to Guide</button>
+    </div>
+  </div>
+</div>
+
+<!-- LINKS -->
+<div class="page" id="page-links">
+  <div class="section-label">Tools & Resources</div>
+  <h2>Links</h2>
+
+  <div id="links-container">
+    <!-- Links render here by JS -->
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add a Link</div>
+  <h2 style="margin-bottom:1rem;">Add a Link</h2>
+  <div class="add-form">
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0;">
+        <label>Title</label>
+        <input type="text" id="lnk-title" placeholder="e.g. Volunteer CRM">
+      </div>
+      <div class="form-row" style="margin-bottom:0;">
+        <label>URL</label>
+        <input type="url" id="lnk-url" placeholder="https://...">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:1rem;">
+      <label>Short Description (optional)</label>
+      <input type="text" id="lnk-desc" placeholder="e.g. Track volunteer prospects and pipeline status">
+    </div>
+    <div class="form-row">
+      <label>Category</label>
+      <select id="lnk-cat">
+        <option value="Platforms & Tools">Platforms & Tools</option>
+        <option value="Docs & Drives">Docs & Drives</option>
+        <option value="Logins & Access">Logins & Access</option>
+        <option value="External Partners">External Partners</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Icon (pick one)</label>
+      <div class="urgency-row" style="flex-wrap:wrap; gap:6px;">
+        <div class="urgency-opt selected" onclick="selectIcon('📋',this)" style="font-size:18px;padding:6px 10px;flex:unset;">📋</div>
+        <div class="urgency-opt" onclick="selectIcon('📁',this)" style="font-size:18px;padding:6px 10px;flex:unset;">📁</div>
+        <div class="urgency-opt" onclick="selectIcon('🔗',this)" style="font-size:18px;padding:6px 10px;flex:unset;">🔗</div>
+        <div class="urgency-opt" onclick="selectIcon('📊',this)" style="font-size:18px;padding:6px 10px;flex:unset;">📊</div>
+        <div class="urgency-opt" onclick="selectIcon('📱',this)" style="font-size:18px;padding:6px 10px;flex:unset;">📱</div>
+        <div class="urgency-opt" onclick="selectIcon('🔑',this)" style="font-size:18px;padding:6px 10px;flex:unset;">🔑</div>
+        <div class="urgency-opt" onclick="selectIcon('📧',this)" style="font-size:18px;padding:6px 10px;flex:unset;">📧</div>
+        <div class="urgency-opt" onclick="selectIcon('🏢',this)" style="font-size:18px;padding:6px 10px;flex:unset;">🏢</div>
+        <div class="urgency-opt" onclick="selectIcon('🗓️',this)" style="font-size:18px;padding:6px 10px;flex:unset;">🗓️</div>
+        <div class="urgency-opt" onclick="selectIcon('💬',this)" style="font-size:18px;padding:6px 10px;flex:unset;">💬</div>
+      </div>
+      <input type="hidden" id="lnk-icon" value="📋">
+    </div>
+    <button class="btn btn-primary" onclick="addLink()">Add Link</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── PAGE NAV ───────────────────────────────────────────────────────
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+// ─── CALENDAR VIEW TOGGLE ────────────────────────────────────────────
+let calView = 'list';
+let currentMonthDate = new Date(2026, 4, 1); // May 2026
+
+function setCalView(v) {
+  calView = v;
+  document.getElementById('list-view').style.display = v === 'list' ? 'block' : 'none';
+  document.getElementById('monthly-view').style.display = v === 'month' ? 'block' : 'none';
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  document.getElementById('btn-month').classList.toggle('active', v === 'month');
+  if (v === 'month') renderMonthGrid();
+}
+
+function changeMonth(dir) {
+  currentMonthDate = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + dir, 1);
+  renderMonthGrid();
+}
+
+// All events: { date: 'YYYY-MM-DD', label: string, cat: string }
+const calEvents = [
+  { date:'2026-05-05', label:'Symposium Recap Reel', cat:'yellow' },
+  { date:'2026-05-05', label:'Fellowship Formal Recap', cat:'yellow' },
+  { date:'2026-05-12', label:"Noah's first day", cat:'gray' },
+  { date:'2026-05-12', label:'Fellow Block Party', cat:'yellow' },
+  { date:'2026-05-12', label:'SU / LSU Graduations', cat:'gray' },
+  { date:'2026-05-15', label:'Block Party Recap Post', cat:'orange' },
+  { date:'2026-05-15', label:'Grad post template', cat:'teal' },
+  { date:'2026-05-17', label:'Post-Secondary Touchpoint', cat:'pink' },
+  { date:'2026-05-17', label:'BRCC Graduation', cat:'gray' },
+  { date:'2026-05-18', label:'Graduation posts batch 1', cat:'teal' },
+  { date:'2026-05-19', label:'Graduation posts batch 2', cat:'teal' },
+  { date:'2026-05-20', label:'Graduation posts batch 3', cat:'teal' },
+  { date:'2026-05-21', label:'Graduation posts batch 4', cat:'teal' },
+  { date:'2026-05-22', label:'Graduation posts batch 5', cat:'teal' },
+  { date:'2026-05-24', label:'Angela → Philippines', cat:'gray' },
+  { date:'2026-06-07', label:'Partner Touchpoint', cat:'pink' },
+  { date:'2026-06-07', label:'Bingo Logistics', cat:'green' },
+  { date:'2026-06-08', label:'Angela returns', cat:'gray' },
+  { date:'2026-06-08', label:'Begin data cleanup', cat:'gray' },
+  { date:'2026-06-14', label:'Confirm Farmers Market', cat:'green' },
+  { date:'2026-06-14', label:'Begin Bingo Invites', cat:'green' },
+  { date:'2026-06-23', label:'Westwood Lunch & Learn', cat:'pink' },
+  { date:'2026-07-05', label:'Order Bingo Prizes', cat:'green' },
+  { date:'2026-07-12', label:'Farmers Market Tent', cat:'green' },
+  { date:'2026-07-12', label:'Bingo Happy Hour', cat:'green' },
+  { date:'2026-07-19', label:'Update Training Slides', cat:'green' },
+  { date:'2026-08-02', label:'DEADLINE: Training Slides', cat:'green' },
+  { date:'2026-08-02', label:'EBR First Day of School', cat:'gray' },
+  { date:'2026-08-02', label:'Decorate Downtown', cat:'pink' },
+  { date:'2026-08-09', label:'Senior Startup', cat:'teal' },
+  { date:'2026-08-16', label:'Full First Week', cat:'teal' },
+  { date:'2026-08-16', label:'Farmers Market (Downtown)', cat:'pink' },
+  { date:'2026-08-23', label:'Volunteer Training In-Person', cat:'green' },
+  { date:'2026-09-01', label:'Virtual Makeup Training', cat:'green' },
+  { date:'2026-09-07', label:'Labor Day — BRYC Closed', cat:'gray' },
+  { date:'2026-09-14', label:'Volunteer Start Week', cat:'green' },
+  { date:'2026-09-21', label:'Plan October Happy Hour', cat:'pink' },
+  { date:'2026-10-13', label:'Fall Happy Hour', cat:'pink' },
+];
+
+const catClassMap = { pink:'', orange:'ev-orange', green:'ev-green', teal:'ev-teal', yellow:'ev-yellow', gray:'ev-gray' };
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderMonthGrid() {
+  const y = currentMonthDate.getFullYear();
+  const m = currentMonthDate.getMonth();
+  document.getElementById('month-nav-title').textContent = monthNames[m] + ' ' + y;
+
+  const firstDay = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const today = new Date();
+
+  let html = '';
+  let dayCount = 1;
+  const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    const dayNum = i - firstDay + 1;
+    const isThisMonth = dayNum >= 1 && dayNum <= daysInMonth;
+    const dateStr = isThisMonth ? `${y}-${String(m+1).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}` : '';
+    const isToday = isThisMonth && today.getFullYear()===y && today.getMonth()===m && today.getDate()===dayNum;
+
+    const dayEvents = isThisMonth ? calEvents.filter(e => e.date === dateStr) : [];
+
+    html += `<div class="month-cell${!isThisMonth?' other-month':''}${isToday?' today':''}">`;
+    html += `<span class="cell-date">${isThisMonth ? dayNum : ''}</span>`;
+    dayEvents.slice(0,3).forEach(ev => {
+      html += `<span class="cell-event-label ${catClassMap[ev.cat]||''}">${ev.label}</span>`;
+    });
+    if (dayEvents.length > 3) {
+      html += `<span style="font-size:10px;color:var(--text-muted);">+${dayEvents.length-3} more</span>`;
+    }
+    html += '</div>';
+  }
+
+  document.getElementById('month-grid').innerHTML = html;
+}
+
+// ─── ADD EVENT ───────────────────────────────────────────────────────
+let selectedCat = 'pink';
+
+function selectCategory(cat, el) {
+  document.querySelectorAll('#page-calendar .urgency-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCat = cat;
+  document.getElementById('ev-cat').value = cat;
+}
+
+function addEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  const date = document.getElementById('ev-date').value;
+  const notes = document.getElementById('ev-notes').value.trim();
+  const cat = document.getElementById('ev-cat').value;
+
+  if (!title || !date) { alert('Please enter a title and date.'); return; }
+
+  const d = new Date(date + 'T12:00:00');
+  const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+  const dayNum = d.getDate();
+
+  const tagClass = {pink:'tag-pink',orange:'tag-orange',green:'tag-green',teal:'tag-teal',yellow:'tag-yellow',gray:'tag-gray'}[cat]||'tag-gray';
+  const catLabel = {pink:'Community',orange:'Social',green:'Volunteers',teal:'Seniors',yellow:'Fellows',gray:'General'}[cat]||'General';
+
+  const row = document.createElement('div');
+  row.className = 'cal-row';
+  row.innerHTML = `
+    <div class="cal-date"><div class="day-num">${dayNum}</div><div class="day-name">${dayName}</div></div>
+    <div class="cal-content">
+      <div class="cal-event"><span class="tag ${tagClass}">${catLabel}</span> ${escHtml(title)}</div>
+      ${notes ? `<div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;padding-left:4px;">${escHtml(notes)}</div>` : ''}
+    </div>
+  `;
+  document.getElementById('added-events-list').appendChild(row);
+
+  // also add to events array for monthly view
+  calEvents.push({ date, label: title, cat });
+
+  document.getElementById('ev-title').value = '';
+  document.getElementById('ev-date').value = '';
+  document.getElementById('ev-notes').value = '';
+
+  if (calView === 'month') renderMonthGrid();
+  row.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+// ─── SITUATIONS ──────────────────────────────────────────────────────
+function toggleSituation(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+  header.classList.toggle('expanded', !isOpen);
+}
+
+function selectUrgency(val, el) {
+  el.closest('.add-form').querySelectorAll('.urgency-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('sit-urgency').value = val;
+}
+
+function addSituation() {
+  const title = document.getElementById('sit-title').value.trim();
+  const body = document.getElementById('sit-body').value.trim();
+  const urgency = document.getElementById('sit-urgency').value;
+  if (!title || !body) { alert('Please fill in both the title and the instructions.'); return; }
+  const colorMap = { high:'urgency-high', med:'urgency-med', low:'urgency-low' };
+  const card = document.createElement('div');
+  card.className = 'situation-card';
+  card.innerHTML = `
+    <div class="situation-header" onclick="toggleSituation(this)">
+      <div class="situation-title"><div class="urgency-dot ${colorMap[urgency]}"></div> ${escHtml(title)}</div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="situation-body">${escHtml(body).replace(/\n/g,'<br>')}</div>
+  `;
+  document.getElementById('situations-list').appendChild(card);
+  document.getElementById('sit-title').value = '';
+  document.getElementById('sit-body').value = '';
+  card.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+// ─── LINKS ───────────────────────────────────────────────────────────
+let selectedIcon = '📋';
+
+const defaultLinks = [
+  { title:'BRYC Shared Drive', url:'https://drive.google.com', desc:'All org docs, templates, and planning materials', cat:'Docs & Drives', icon:'📁' },
+  { title:'Volunteer CRM', url:'https://docs.google.com', desc:'Track prospect pipeline: Interested → Intake → Onboarded', cat:'Platforms & Tools', icon:'📋' },
+  { title:'BRYC Instagram', url:'https://instagram.com', desc:'Main social media account for content and scheduling', cat:'Platforms & Tools', icon:'📱' },
+  { title:'BRYC LinkedIn', url:'https://linkedin.com', desc:'Professional presence — posts, partner outreach', cat:'Platforms & Tools', icon:'📱' },
+  { title:'Passwords Sheet', url:'https://docs.google.com', desc:'Login credentials for all shared BRYC accounts', cat:'Logins & Access', icon:'🔑' },
+  { title:'Email / Gmail', url:'https://mail.google.com', desc:'BRYC team email for community and partner outreach', cat:'Platforms & Tools', icon:'📧' },
+];
+
+let allLinks = [...defaultLinks];
+
+function renderLinks() {
+  const container = document.getElementById('links-container');
+  const categories = [...new Set(allLinks.map(l => l.cat))];
+  let html = '';
+  categories.forEach(cat => {
+    const catLinks = allLinks.filter(l => l.cat === cat);
+    html += `<div class="link-category-header"><span class="link-cat-label">${cat}</span><div class="link-cat-line"></div></div>`;
+    html += '<div class="link-grid">';
+    catLinks.forEach(l => {
+      html += `
+        <a class="link-card" href="${escHtml(l.url)}" target="_blank" rel="noopener">
+          <div class="link-icon">${l.icon}</div>
+          <div class="link-info">
+            <div class="link-title">${escHtml(l.title)}</div>
+            ${l.desc ? `<div class="link-desc">${escHtml(l.desc)}</div>` : ''}
+            <div class="link-url">${escHtml(l.url)}</div>
+          </div>
+        </a>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function selectIcon(icon, el) {
+  document.querySelectorAll('#page-links .urgency-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedIcon = icon;
+  document.getElementById('lnk-icon').value = icon;
+}
+
+function addLink() {
+  const title = document.getElementById('lnk-title').value.trim();
+  const url = document.getElementById('lnk-url').value.trim();
+  const desc = document.getElementById('lnk-desc').value.trim();
+  const cat = document.getElementById('lnk-cat').value;
+  const icon = document.getElementById('lnk-icon').value;
+
+  if (!title || !url) { alert('Please enter a title and URL.'); return; }
+
+  allLinks.push({ title, url, desc, cat, icon });
+  renderLinks();
+
+  document.getElementById('lnk-title').value = '';
+  document.getElementById('lnk-url').value = '';
+  document.getElementById('lnk-desc').value = '';
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Init
+renderLinks();
+</script>
+</body>
+</html>

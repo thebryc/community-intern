@@ -123,8 +123,8 @@
   .month-nav-btn:hover { border-color:var(--pink); color:var(--pink); }
   .month-grid-header { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; margin-bottom:4px; }
   .month-grid-header span { font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); padding:6px 0; }
-  .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
-  .month-cell { background:var(--white); border:1px solid var(--border); border-radius:8px; min-height:80px; padding:6px; font-size:12px; position:relative; }
+  .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; grid-auto-rows:minmax(100px,auto); }
+  .month-cell { background:var(--white); border:1px solid var(--border); border-radius:8px; min-height:100px; padding:6px; font-size:12px; position:relative; align-content:start; }
   .month-cell.other-month { background:#f5f3ef; opacity:.5; }
   .month-cell.today { border-color:var(--pink); border-width:2px; }
   .cell-date { font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:3px; display:block; }

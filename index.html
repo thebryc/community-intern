@@ -547,16 +547,6 @@ window.signInWithGoogle = async () => {
 };
 
 window.signOut = () => fbSignOut(auth);
-
-getRedirectResult(auth).then(result => {
-  if (result?.user) {
-    const email = result.user.email;
-    if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
-      fbSignOut(auth);
-      document.getElementById('login-error').style.display = 'block';
-    }
-  }
-}).catch(e => console.error(e));
   
 onAuthStateChanged(auth, user => {
   document.getElementById('loading-screen').classList.add('hidden');

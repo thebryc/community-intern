@@ -512,7 +512,7 @@ import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, 
 // ─── CONFIG ─────────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyCGMcmCxtQLE3NiUjS3zYQ1ZZEiyIftlUw",
-  authDomain: "thebryc.github.io",
+  authDomain: "community-intern-hub.firebaseapp.com",
   projectId: "community-intern-hub",
   storageBucket: "community-intern-hub.firebasestorage.app",
   messagingSenderId: "1029874614304",
@@ -530,18 +530,25 @@ auth.useDeviceLanguage();
 // ─── AUTH ────────────────────────────────────────────────────────────
 window.signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  provider.addScope('email');
-  provider.addScope('profile');
+  provider.setCustomParameters({ 
+    hd: ALLOWED_DOMAIN,
+    prompt: 'select_account'
+  });
   try {
     const result = await signInWithPopup(auth, provider);
     const email = result.user.email;
     if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
       await fbSignOut(auth);
+      document.getElementById('login-error').textContent = 'Access denied. Please use your @thebryc.org account.';
       document.getElementById('login-error').style.display = 'block';
     }
   } catch(e) {
-    console.error('Auth error:', e.code, e.message);
-    document.getElementById('login-error').textContent = e.message;
+    console.error(e.code, e.message);
+    if (e.code === 'auth/popup-blocked') {
+      document.getElementById('login-error').textContent = 'Popup was blocked. Please allow popups for this site and try again.';
+    } else {
+      document.getElementById('login-error').textContent = 'Error: ' + e.code;
+    }
     document.getElementById('login-error').style.display = 'block';
   }
 };

@@ -504,7 +504,7 @@
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut }
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut as fbSignOut }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, orderBy, query }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
@@ -532,20 +532,25 @@ window.signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ hd: ALLOWED_DOMAIN });
   try {
-    const { signInWithRedirect, getRedirectResult } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-    const result = await signInWithRedirect(auth, provider);
-    const email = result.user.email;
-    if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
-      await fbSignOut(auth);
-      document.getElementById('login-error').style.display = 'block';
-    }
+    await signInWithRedirect(auth, provider);
   } catch(e) {
     console.error(e);
+    document.getElementById('login-error').style.display = 'block';
   }
 };
 
 window.signOut = () => fbSignOut(auth);
 
+getRedirectResult(auth).then(result => {
+  if (result?.user) {
+    const email = result.user.email;
+    if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
+      fbSignOut(auth);
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+}).catch(e => console.error(e));
+  
 onAuthStateChanged(auth, user => {
   document.getElementById('loading-screen').classList.add('hidden');
   if (user && user.email.endsWith('@' + ALLOWED_DOMAIN)) {

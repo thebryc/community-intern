@@ -221,7 +221,7 @@
 </div>
 
 <!-- LOGIN -->
-<div id="login-screen" class="hidden">
+<div id="login-screen">
   <div class="login-box">
     <div class="login-logo">B</div>
     <h1>BRYC Intern Hub</h1>
@@ -512,7 +512,7 @@ import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, 
 // ─── CONFIG ─────────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyCGMcmCxtQLE3NiUjS3zYQ1ZZEiyIftlUw",
-  authDomain: "community-intern-hub.firebaseapp.com",
+  authDomain: "thebryc.github.io",
   projectId: "community-intern-hub",
   storageBucket: "community-intern-hub.firebasestorage.app",
   messagingSenderId: "1029874614304",
@@ -525,7 +525,7 @@ const ALLOWED_DOMAIN = 'thebryc.org';
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
+auth.useDeviceLanguage();
 
 // ─── AUTH ────────────────────────────────────────────────────────────
 window.signInWithGoogle = async () => {

@@ -225,8 +225,11 @@
   <div class="login-box">
     <div class="login-logo">B</div>
     <h1>BRYC Intern Hub</h1>
-    <p>Sign in with your BRYC Google account to continue.</p>
-    <button class="google-btn" onclick="signInWithGoogle()">
+    <p>Enter the access password, then sign in with your BRYC Google account.</p>
+    <div style="margin-bottom:1rem;">
+      <input type="password" id="login-pw" placeholder="Password" style="width:100%;padding:10px 12px;border:2px solid #e0dbd0;border-radius:10px;font-family:'proxima-nova',sans-serif;font-size:14px;">
+</div>
+<button class="google-btn" onclick="signInWithGoogle()">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign in with Google
     </button>
@@ -529,32 +532,33 @@ auth.useDeviceLanguage();
 
 // ─── AUTH ────────────────────────────────────────────────────────────
 window.signInWithGoogle = async () => {
+  const pw = document.getElementById('login-pw').value;
+  const err = document.getElementById('login-error');
+  if (pw !== 'summer27') {
+    err.textContent = 'Incorrect password.';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
   const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ 
-    hd: ALLOWED_DOMAIN,
-    prompt: 'select_account'
-  });
+  provider.addScope('email');
+  provider.addScope('profile');
   try {
     const result = await signInWithPopup(auth, provider);
     const email = result.user.email;
     if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
       await fbSignOut(auth);
-      document.getElementById('login-error').textContent = 'Access denied. Please use your @thebryc.org account.';
-      document.getElementById('login-error').style.display = 'block';
+      err.textContent = 'Access denied. Use your @thebryc.org account.';
+      err.style.display = 'block';
     }
   } catch(e) {
-    console.error(e.code, e.message);
-    if (e.code === 'auth/popup-blocked') {
-      document.getElementById('login-error').textContent = 'Popup was blocked. Please allow popups for this site and try again.';
-    } else {
-      document.getElementById('login-error').textContent = 'Error: ' + e.code;
-    }
-    document.getElementById('login-error').style.display = 'block';
+    err.textContent = 'Google sign-in failed or was cancelled. Error: ' + e.code;
+    err.style.display = 'block';
   }
 };
 
 window.signOut = () => fbSignOut(auth);
-  
+
 onAuthStateChanged(auth, user => {
   document.getElementById('loading-screen').classList.add('hidden');
   if (user && user.email.endsWith('@' + ALLOWED_DOMAIN)) {

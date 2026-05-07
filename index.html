@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BRYC — Noah's Summer Guide</title>
+<title>BRYC — Community Intern Hub</title>
 <link rel="stylesheet" href="https://use.typekit.net/hte4vgd.css">
 <style>
   :root {
@@ -21,7 +21,9 @@
   .login-box { background:#fff; border-radius:20px; padding:3rem 2.5rem; text-align:center; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.2); }
   .login-logo { width:56px; height:56px; background:var(--pink); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:#fff; margin:0 auto 1.25rem; }
   .login-box h1 { font-size:1.5rem; font-weight:700; margin-bottom:8px; }
-  .login-box p { font-size:14px; color:var(--text-muted); margin-bottom:2rem; }
+  .login-box p { font-size:14px; color:var(--text-muted); margin-bottom:1.5rem; }
+  .login-pw-input { width:100%; padding:12px 14px; border:2px solid var(--border); border-radius:10px; font-family:'proxima-nova',sans-serif; font-size:14px; margin-bottom:12px; transition:border-color .15s; }
+  .login-pw-input:focus { outline:none; border-color:var(--pink); }
   .google-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:12px 20px; background:#fff; border:2px solid var(--border); border-radius:10px; cursor:pointer; font-family:'proxima-nova',sans-serif; font-size:14px; font-weight:700; color:var(--text); transition:all .15s; }
   .google-btn:hover { border-color:var(--pink); box-shadow:0 2px 12px rgba(237,18,95,.15); }
   .login-note { font-size:12px; color:var(--text-muted); margin-top:1rem; }
@@ -43,7 +45,6 @@
   .user-chip { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:20px; padding:4px 10px 4px 5px; }
   .user-avatar { width:24px; height:24px; border-radius:50%; object-fit:cover; }
   .user-name { font-size:12px; font-weight:600; color:#fff; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .admin-badge { font-size:10px; background:var(--gold); color:#fff; padding:1px 6px; border-radius:10px; font-weight:700; }
   .signout-btn { background:rgba(255,255,255,.15); border:none; color:#fff; font-family:'proxima-nova',sans-serif; font-size:12px; font-weight:600; padding:5px 10px; border-radius:6px; cursor:pointer; }
   .signout-btn:hover { background:rgba(255,255,255,.25); }
   nav { display:flex; gap:4px; }
@@ -88,8 +89,6 @@
   .tag-yellow{background:var(--gold-pale);color:#7a5800;} .tag-gray{background:#f0f0f0;color:#444;}
 
   /* ── FORMS ── */
-  .admin-section { display:none; }
-  body.is-admin .admin-section { display:block; }
   .add-form { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; }
   .form-row { margin-bottom:1rem; }
   .form-row:last-child { margin-bottom:0; }
@@ -155,10 +154,25 @@
   .month-cell.today { border-color:var(--pink); border-width:2px; }
   .cell-date { font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:3px; display:block; }
   .month-cell.today .cell-date { color:var(--pink); }
-  .cell-event-label { font-size:10px; font-weight:600; color:#fff; background:var(--pink); border-radius:3px; padding:1px 5px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5; }
+  .cell-event-label { font-size:10px; font-weight:600; color:#fff; background:var(--pink); border-radius:3px; padding:1px 5px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5; cursor:pointer; }
   .cell-event-label.ev-orange{background:#e65100;} .cell-event-label.ev-green{background:#1b5e20;}
   .cell-event-label.ev-teal{background:#006064;} .cell-event-label.ev-yellow{background:#7a5800;}
   .cell-event-label.ev-gray{background:#888;}
+
+  /* ── EVENT MODAL ── */
+  #event-modal { position:fixed; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:500; padding:1rem; }
+  #event-modal.hidden { display:none; }
+  .modal-box { background:#fff; border-radius:16px; padding:2rem; max-width:480px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.2); position:relative; max-height:90vh; overflow-y:auto; }
+  .modal-close { position:absolute; top:14px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-muted); line-height:1; }
+  .modal-close:hover { color:var(--text); }
+  .modal-cat-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:4px; margin-bottom:12px; }
+  .modal-title { font-size:1.2rem; font-weight:700; margin-bottom:6px; }
+  .modal-date { font-size:13px; color:var(--text-muted); margin-bottom:16px; }
+  .modal-notes-label { font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+  .modal-notes { font-size:14px; color:var(--text-muted); line-height:1.7; white-space:pre-wrap; margin-bottom:4px; }
+  .modal-divider { height:1px; background:var(--border); margin:16px 0; }
+  .modal-note-input { width:100%; font-family:'proxima-nova',sans-serif; font-size:14px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; resize:vertical; min-height:80px; line-height:1.6; background:var(--cream); }
+  .modal-note-input:focus { outline:none; border-color:var(--pink); background:#fff; }
 
   /* ── WORKFLOWS ── */
   .workflow-card { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:12px; }
@@ -225,16 +239,11 @@
   <div class="login-box">
     <div class="login-logo">B</div>
     <h1>BRYC Intern Hub</h1>
-    <p>Enter the access password, then sign in with your BRYC Google account.</p>
-    <div style="margin-bottom:1rem;">
-      <input type="password" id="login-pw" placeholder="Password" style="width:100%;padding:10px 12px;border:2px solid #e0dbd0;border-radius:10px;font-family:'proxima-nova',sans-serif;font-size:14px;">
-</div>
-<button class="google-btn" onclick="signInWithGoogle()">
-      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Sign in with Google
-    </button>
-    <p class="login-note">Access is limited to @thebryc.org accounts.</p>
-    <p class="login-error" id="login-error">Access denied. Please use your @thebryc.org account.</p>
+    <p>Enter the access password to continue.</p>
+    <input type="password" id="login-pw" class="login-pw-input" placeholder="Enter password..." onkeydown="if(event.key==='Enter')signInWithGoogle()">
+    <button class="btn btn-primary" onclick="signInWithGoogle()" style="width:100%;padding:12px;font-size:14px;border-radius:10px;margin-top:4px;">SIGN IN</button>
+    <p class="login-note">Data is synced securely via Firebase.</p>
+    <p class="login-error" id="login-error"></p>
   </div>
 </div>
 
@@ -257,9 +266,8 @@
       <div class="user-chip">
         <img class="user-avatar" id="user-avatar" src="" alt="">
         <span class="user-name" id="user-name"></span>
-        <span class="admin-badge" id="admin-badge" style="display:none;">Admin</span>
       </div>
-      <button class="signout-btn" onclick="signOut()">Sign out</button>
+      <button class="signout-btn" onclick="doSignOut()">Sign out</button>
     </div>
   </div>
 </header>
@@ -357,32 +365,31 @@
     <div class="month-grid-header"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
     <div class="month-grid" id="month-grid"></div>
   </div>
-  <div class="divider admin-section"></div>
-  <div class="admin-section">
-    <div class="section-label" style="margin-bottom:6px;">Add / Edit Event</div>
-    <h2 style="margin-bottom:1rem;">Add an Event</h2>
-    <div class="add-form" id="cal-form">
-      <div class="form-row-2">
-        <div><label>Event Title</label><input type="text" id="ev-title" placeholder="e.g. Partner lunch at Westwood"></div>
-        <div><label>Date</label><input type="date" id="ev-date"></div>
+
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add / Edit Event</div>
+  <h2 style="margin-bottom:1rem;">Add an Event</h2>
+  <div class="add-form" id="cal-form">
+    <div class="form-row-2">
+      <div><label>Event Title</label><input type="text" id="ev-title" placeholder="e.g. Partner lunch at Westwood"></div>
+      <div><label>Date</label><input type="date" id="ev-date"></div>
+    </div>
+    <div class="form-row"><label>Notes (optional)</label><textarea id="ev-notes" style="min-height:60px;" placeholder="Details, location, prep needed..."></textarea></div>
+    <div class="form-row">
+      <label>Category</label>
+      <div class="opt-row">
+        <div class="opt selected" onclick="selectCat('pink',this)">🩷 Community</div>
+        <div class="opt" onclick="selectCat('orange',this)">🟠 Social</div>
+        <div class="opt" onclick="selectCat('green',this)">🟢 Volunteers</div>
+        <div class="opt" onclick="selectCat('teal',this)">🩵 Seniors</div>
+        <div class="opt" onclick="selectCat('yellow',this)">⭐ Fellows</div>
+        <div class="opt" onclick="selectCat('gray',this)">⚪ General</div>
       </div>
-      <div class="form-row"><label>Notes (optional)</label><textarea id="ev-notes" style="min-height:60px;" placeholder="Details, location, prep needed..."></textarea></div>
-      <div class="form-row">
-        <label>Category</label>
-        <div class="opt-row">
-          <div class="opt selected" onclick="selectCat('pink',this)">🩷 Community</div>
-          <div class="opt" onclick="selectCat('orange',this)">🟠 Social</div>
-          <div class="opt" onclick="selectCat('green',this)">🟢 Volunteers</div>
-          <div class="opt" onclick="selectCat('teal',this)">🩵 Seniors</div>
-          <div class="opt" onclick="selectCat('yellow',this)">⭐ Fellows</div>
-          <div class="opt" onclick="selectCat('gray',this)">⚪ General</div>
-        </div>
-        <input type="hidden" id="ev-cat" value="pink">
-      </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-primary" id="ev-submit-btn" onclick="submitEvent()">Add to Calendar</button>
-        <button class="btn btn-ghost" id="ev-cancel-btn" onclick="cancelEventEdit()" style="display:none;">Cancel</button>
-      </div>
+      <input type="hidden" id="ev-cat" value="pink">
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="btn btn-primary" id="ev-submit-btn" onclick="submitEvent()">Add to Calendar</button>
+      <button class="btn btn-ghost" id="ev-cancel-btn" onclick="cancelEventEdit()" style="display:none;">Cancel</button>
     </div>
   </div>
 </div>
@@ -393,22 +400,20 @@
   <h2>Workflows</h2>
   <p style="font-size:14px;color:var(--text-muted);margin-bottom:1.5rem;">Named processes for recurring tasks. Each workflow has numbered steps you can follow start to finish.</p>
   <div id="workflows-list"><div style="color:var(--text-muted);padding:2rem;text-align:center;">Loading workflows...</div></div>
-  <div class="divider admin-section"></div>
-  <div class="admin-section">
-    <div class="section-label" style="margin-bottom:6px;">Add a Workflow</div>
-    <h2 style="margin-bottom:1rem;">New Workflow</h2>
-    <div class="add-form">
-      <div class="form-row"><label>Workflow Name</label><input type="text" id="wf-name" placeholder="e.g. Onboarding a New Volunteer"></div>
-      <div class="form-row"><label>Description (optional)</label><input type="text" id="wf-desc" placeholder="One-line summary of when to use this workflow"></div>
-      <div id="wf-steps-builder">
-        <label style="margin-bottom:8px;">Steps</label>
-        <div id="wf-steps-list"></div>
-        <button class="btn btn-ghost" onclick="addStepField()" style="margin-top:8px;font-size:12px;padding:6px 14px;">+ Add Step</button>
-      </div>
-      <div style="margin-top:1rem;display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-primary" id="wf-submit-btn" onclick="submitWorkflow()">Save Workflow</button>
-        <button class="btn btn-ghost" id="wf-cancel-btn" onclick="cancelWorkflowEdit()" style="display:none;">Cancel</button>
-      </div>
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add a Workflow</div>
+  <h2 style="margin-bottom:1rem;">New Workflow</h2>
+  <div class="add-form">
+    <div class="form-row"><label>Workflow Name</label><input type="text" id="wf-name" placeholder="e.g. Onboarding a New Volunteer"></div>
+    <div class="form-row"><label>Description (optional)</label><input type="text" id="wf-desc" placeholder="One-line summary of when to use this workflow"></div>
+    <div id="wf-steps-builder">
+      <label style="margin-bottom:8px;">Steps</label>
+      <div id="wf-steps-list"></div>
+      <button class="btn btn-ghost" onclick="addStepField()" style="margin-top:8px;font-size:12px;padding:6px 14px;">+ Add Step</button>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:10px;align-items:center;">
+      <button class="btn btn-primary" id="wf-submit-btn" onclick="submitWorkflow()">Save Workflow</button>
+      <button class="btn btn-ghost" id="wf-cancel-btn" onclick="cancelWorkflowEdit()" style="display:none;">Cancel</button>
     </div>
   </div>
 </div>
@@ -427,26 +432,24 @@
     <div class="legend-item"><span class="urgency-dot urgency-low"></span> Can wait / document</div>
   </div>
   <div id="situations-list"><div style="color:var(--text-muted);padding:2rem;text-align:center;">Loading guides...</div></div>
-  <div class="divider admin-section"></div>
-  <div class="admin-section">
-    <div class="section-label" style="margin-bottom:6px;">Add / Edit Guide</div>
-    <h2 style="margin-bottom:1rem;">Add a How-To</h2>
-    <div class="add-form" id="sit-form">
-      <div class="form-row"><label>Title</label><input type="text" id="sit-title" placeholder="e.g. A Fellow misses an event and contacts you directly"></div>
-      <div class="form-row"><label>Instructions</label><textarea id="sit-body" placeholder="Step-by-step instructions, notes, who to contact..."></textarea></div>
-      <div class="form-row">
-        <label>Urgency</label>
-        <div class="opt-row">
-          <div class="opt" onclick="selectSitUrgency('high',this)">🔴 Handle immediately</div>
-          <div class="opt selected" onclick="selectSitUrgency('med',this)">🟡 Within 24 hrs</div>
-          <div class="opt" onclick="selectSitUrgency('low',this)">🟢 Can wait</div>
-        </div>
-        <input type="hidden" id="sit-urgency" value="med">
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add / Edit Guide</div>
+  <h2 style="margin-bottom:1rem;">Add a How-To</h2>
+  <div class="add-form" id="sit-form">
+    <div class="form-row"><label>Title</label><input type="text" id="sit-title" placeholder="e.g. A Fellow misses an event and contacts you directly"></div>
+    <div class="form-row"><label>Instructions</label><textarea id="sit-body" placeholder="Step-by-step instructions, notes, who to contact..."></textarea></div>
+    <div class="form-row">
+      <label>Urgency</label>
+      <div class="opt-row">
+        <div class="opt" onclick="selectSitUrgency('high',this)">🔴 Handle immediately</div>
+        <div class="opt selected" onclick="selectSitUrgency('med',this)">🟡 Within 24 hrs</div>
+        <div class="opt" onclick="selectSitUrgency('low',this)">🟢 Can wait</div>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-primary" id="sit-submit-btn" onclick="submitSituation()">Add Guide</button>
-        <button class="btn btn-ghost" id="sit-cancel-btn" onclick="cancelSitEdit()" style="display:none;">Cancel</button>
-      </div>
+      <input type="hidden" id="sit-urgency" value="med">
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="btn btn-primary" id="sit-submit-btn" onclick="submitSituation()">Add Guide</button>
+      <button class="btn btn-ghost" id="sit-cancel-btn" onclick="cancelSitEdit()" style="display:none;">Cancel</button>
     </div>
   </div>
 </div>
@@ -456,126 +459,160 @@
   <div class="section-label">Tools & Resources</div>
   <h2>Links</h2>
   <div id="links-container"><div style="color:var(--text-muted);padding:2rem;text-align:center;">Loading links...</div></div>
-  <div class="divider admin-section"></div>
-  <div class="admin-section">
-    <div class="section-label" style="margin-bottom:6px;">Add / Edit Link</div>
-    <h2 style="margin-bottom:1rem;">Add a Link</h2>
-    <div class="add-form" id="link-form">
-      <div class="form-row-2">
-        <div><label>Title</label><input type="text" id="lnk-title" placeholder="e.g. Volunteer CRM"></div>
-        <div><label>URL</label><input type="url" id="lnk-url" placeholder="https://..."></div>
+  <div class="divider"></div>
+  <div class="section-label" style="margin-bottom:6px;">Add / Edit Link</div>
+  <h2 style="margin-bottom:1rem;">Add a Link</h2>
+  <div class="add-form" id="link-form">
+    <div class="form-row-2">
+      <div><label>Title</label><input type="text" id="lnk-title" placeholder="e.g. Volunteer CRM"></div>
+      <div><label>URL</label><input type="url" id="lnk-url" placeholder="https://..."></div>
+    </div>
+    <div class="form-row"><label>Description (optional)</label><input type="text" id="lnk-desc" placeholder="What this link is for"></div>
+    <div class="form-row-2" style="margin-bottom:1rem;">
+      <div>
+        <label>Category</label>
+        <select id="lnk-cat">
+          <option>Platforms & Tools</option><option>Docs & Drives</option>
+          <option>Logins & Access</option><option>External Partners</option><option>Other</option>
+        </select>
       </div>
-      <div class="form-row"><label>Description (optional)</label><input type="text" id="lnk-desc" placeholder="What this link is for"></div>
-      <div class="form-row-2" style="margin-bottom:1rem;">
-        <div>
-          <label>Category</label>
-          <select id="lnk-cat">
-            <option>Platforms & Tools</option><option>Docs & Drives</option>
-            <option>Logins & Access</option><option>External Partners</option><option>Other</option>
-          </select>
+      <div>
+        <label>Icon</label>
+        <div class="opt-row">
+          <div class="opt selected" onclick="selectIcon('📋',this)">📋</div>
+          <div class="opt" onclick="selectIcon('📁',this)">📁</div>
+          <div class="opt" onclick="selectIcon('🔗',this)">🔗</div>
+          <div class="opt" onclick="selectIcon('📊',this)">📊</div>
+          <div class="opt" onclick="selectIcon('📱',this)">📱</div>
+          <div class="opt" onclick="selectIcon('🔑',this)">🔑</div>
+          <div class="opt" onclick="selectIcon('📧',this)">📧</div>
+          <div class="opt" onclick="selectIcon('🏢',this)">🏢</div>
+          <div class="opt" onclick="selectIcon('🗓️',this)">🗓️</div>
+          <div class="opt" onclick="selectIcon('💬',this)">💬</div>
         </div>
-        <div>
-          <label>Icon</label>
-          <div class="opt-row">
-            <div class="opt selected" onclick="selectIcon('📋',this)">📋</div>
-            <div class="opt" onclick="selectIcon('📁',this)">📁</div>
-            <div class="opt" onclick="selectIcon('🔗',this)">🔗</div>
-            <div class="opt" onclick="selectIcon('📊',this)">📊</div>
-            <div class="opt" onclick="selectIcon('📱',this)">📱</div>
-            <div class="opt" onclick="selectIcon('🔑',this)">🔑</div>
-            <div class="opt" onclick="selectIcon('📧',this)">📧</div>
-            <div class="opt" onclick="selectIcon('🏢',this)">🏢</div>
-            <div class="opt" onclick="selectIcon('🗓️',this)">🗓️</div>
-            <div class="opt" onclick="selectIcon('💬',this)">💬</div>
-          </div>
-          <input type="hidden" id="lnk-icon" value="📋">
-        </div>
+        <input type="hidden" id="lnk-icon" value="📋">
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="btn btn-primary" id="lnk-submit-btn" onclick="submitLink()">Add Link</button>
-        <button class="btn btn-ghost" id="lnk-cancel-btn" onclick="cancelLinkEdit()" style="display:none;">Cancel</button>
-      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="btn btn-primary" id="lnk-submit-btn" onclick="submitLink()">Add Link</button>
+      <button class="btn btn-ghost" id="lnk-cancel-btn" onclick="cancelLinkEdit()" style="display:none;">Cancel</button>
     </div>
   </div>
 </div>
 
 </main>
+
+<!-- EVENT DETAIL MODAL -->
+<div id="event-modal" class="hidden" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-cat-tag" class="modal-cat-tag"></div>
+    <div id="modal-title" class="modal-title"></div>
+    <div id="modal-date" class="modal-date"></div>
+    <div id="modal-notes-section" style="display:none;">
+      <div class="modal-notes-label">Notes</div>
+      <div id="modal-notes" class="modal-notes"></div>
+    </div>
+    <div class="modal-divider"></div>
+    <div>
+      <div class="modal-notes-label">Add a Note</div>
+      <textarea class="modal-note-input" id="modal-note-input" placeholder="Add context, reminders, or updates..."></textarea>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" style="font-size:12px;padding:7px 16px;" onclick="saveModalNote()">Save Note</button>
+        <button class="edit-btn" style="padding:5px 12px;font-size:12px;" onclick="editFromModal()">Edit Event</button>
+        <button class="del-btn" style="padding:5px 12px;font-size:12px;" onclick="deleteFromModal()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- end #app -->
 
 <div id="toast"></div>
 
-<!-- FIREBASE -->
+<!-- FIREBASE MODULE -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, orderBy, query }
-  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-// ─── CONFIG ─────────────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyCGMcmCxtQLE3NiUjS3zYQ1ZZEiyIftlUw",
   authDomain: "community-intern-hub.firebaseapp.com",
   projectId: "community-intern-hub",
   storageBucket: "community-intern-hub.firebasestorage.app",
   messagingSenderId: "1029874614304",
-  appId: "1:1029874614304:web:dfd30fbd6403f8b81abc45",
-  measurementId: "G-YVKDWVK39G"
+  appId: "1:1029874614304:web:dfd30fbd6403f8b81abc45"
 };
 
-const ADMIN_EMAIL = 'angela@thebryc.org';
-const ALLOWED_DOMAIN = 'thebryc.org';
+const fbApp = initializeApp(firebaseConfig);
+const db    = getFirestore(fbApp);
+const auth  = getAuth(fbApp);
+const provider = new GoogleAuthProvider();
 
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-auth.useDeviceLanguage();
+window._fb = { db, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, auth, provider, signInWithPopup, signOut };
+window._fbReady = true;
+
+onAuthStateChanged(auth, user => {
+  window._fbUser = user || null;
+  window.dispatchEvent(new CustomEvent('fb-auth-change', { detail: user }));
+});
+
+window.dispatchEvent(new Event('fb-ready'));
+</script>
+
+<!-- MAIN APP SCRIPT -->
+<script>
+const ALLOWED_DOMAIN = 'thebryc.org';
+const ACCESS_PASSWORD = 'summer27';
 
 // ─── AUTH ────────────────────────────────────────────────────────────
-window.signInWithGoogle = async () => {
-  const pw = document.getElementById('login-pw').value;
+function signInWithGoogle() {
+  const pw  = document.getElementById('login-pw').value;
   const err = document.getElementById('login-error');
-  if (pw !== 'summer27') {
+  if (pw !== ACCESS_PASSWORD) {
     err.textContent = 'Incorrect password.';
     err.style.display = 'block';
     return;
   }
   err.style.display = 'none';
-  const provider = new GoogleAuthProvider();
-  provider.addScope('email');
-  provider.addScope('profile');
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const email = result.user.email;
-    if (!email.endsWith('@' + ALLOWED_DOMAIN)) {
-      await fbSignOut(auth);
-      err.textContent = 'Access denied. Use your @thebryc.org account.';
+  if (!window._fbReady) { err.textContent = 'Still loading, try again.'; err.style.display='block'; return; }
+  window._fb.signInWithPopup(window._fb.auth, window._fb.provider)
+    .then(result => {
+      if (!result.user.email.endsWith('@' + ALLOWED_DOMAIN)) {
+        window._fb.signOut(window._fb.auth);
+        err.textContent = 'Access denied. Use your @thebryc.org account.';
+        err.style.display = 'block';
+      }
+    })
+    .catch(e => {
+      err.textContent = 'Sign-in failed: ' + e.code;
       err.style.display = 'block';
-    }
-  } catch(e) {
-    err.textContent = 'Google sign-in failed or was cancelled. Error: ' + e.code;
-    err.style.display = 'block';
-  }
-};
+    });
+}
 
-window.signOut = () => fbSignOut(auth);
+function doSignOut() {
+  if (!confirm('Sign out?')) return;
+  window._fb.signOut(window._fb.auth);
+}
 
-onAuthStateChanged(auth, user => {
+window.addEventListener('fb-auth-change', e => {
+  const user = e.detail;
   document.getElementById('loading-screen').classList.add('hidden');
   if (user && user.email.endsWith('@' + ALLOWED_DOMAIN)) {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('app').style.display = 'block';
     document.getElementById('user-name').textContent = user.displayName || user.email;
     document.getElementById('user-avatar').src = user.photoURL || '';
-    const isAdmin = user.email === ADMIN_EMAIL;
-    if (isAdmin) {
-      document.body.classList.add('is-admin');
-      document.getElementById('admin-badge').style.display = 'inline';
-    }
     initData();
   } else {
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('app').style.display = 'none';
   }
+});
+
+window.addEventListener('fb-ready', () => {
+  document.getElementById('loading-screen').classList.add('hidden');
 });
 
 // ─── TOAST ───────────────────────────────────────────────────────────
@@ -588,14 +625,15 @@ function toast(msg) {
 
 // ─── UTILS ───────────────────────────────────────────────────────────
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-window.showPage = (id,btn) => {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-};
 
-// ─── INIT DATA ───────────────────────────────────────────────────────
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────
 function initData() {
   listenCalendar();
   listenWorkflows();
@@ -615,7 +653,6 @@ const CAT_EV  = {pink:'',orange:'ev-orange',green:'ev-green',teal:'ev-teal',yell
 const MONTHS  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-// Seed default events if collection is empty
 const DEFAULT_EVENTS = [
   {date:'2026-05-05',label:'Symposium Recap Reel',notes:'',cat:'yellow'},
   {date:'2026-05-05',label:'Fellowship Formal Recap Carousel',notes:'',cat:'yellow'},
@@ -663,15 +700,15 @@ const DEFAULT_EVENTS = [
 ];
 
 async function listenCalendar() {
-  const col = collection(db, 'calEvents');
-  const snap = await getDocs(col);
+  const col = window._fb.collection(window._fb.db, 'calEvents');
+  const snap = await window._fb.getDocs(col);
   if (snap.empty) {
     for (const ev of DEFAULT_EVENTS) {
       const id = Date.now() + '-' + Math.random().toString(36).slice(2);
-      await setDoc(doc(db, 'calEvents', id), { ...ev, id });
+      await window._fb.setDoc(window._fb.doc(window._fb.db, 'calEvents', id), { ...ev, id });
     }
   }
-  onSnapshot(col, snap => {
+  window._fb.onSnapshot(col, snap => {
     calEvents = snap.docs.map(d => ({ ...d.data(), id: d.id }));
     renderListView();
     if (calView === 'month') renderMonthGrid();
@@ -679,47 +716,47 @@ async function listenCalendar() {
 }
 
 let calView = 'list';
-let currentMonthDate = new Date(2026,4,1);
+let currentMonthDate = new Date(2026, 4, 1);
 let editingEventId = null;
+let modalEventId = null;
 
-window.setCalView = v => {
+function setCalView(v) {
   calView = v;
-  document.getElementById('list-view').style.display    = v==='list'  ? 'block':'none';
-  document.getElementById('monthly-view').style.display = v==='month' ? 'block':'none';
-  document.getElementById('btn-list').classList.toggle('active',v==='list');
-  document.getElementById('btn-month').classList.toggle('active',v==='month');
-  if(v==='month') renderMonthGrid();
-};
+  document.getElementById('list-view').style.display    = v==='list'  ? 'block' : 'none';
+  document.getElementById('monthly-view').style.display = v==='month' ? 'block' : 'none';
+  document.getElementById('btn-list').classList.toggle('active', v==='list');
+  document.getElementById('btn-month').classList.toggle('active', v==='month');
+  if (v==='month') renderMonthGrid();
+}
 
-window.changeMonth = dir => {
+function changeMonth(dir) {
   currentMonthDate = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth()+dir, 1);
   renderMonthGrid();
-};
+}
 
 function renderListView() {
-  const isAdmin = document.body.classList.contains('is-admin');
   const sorted = [...calEvents].filter(ev=>ev.date).sort((a,b)=>a.date.localeCompare(b.date));
   const byMonth = {};
-  sorted.forEach(ev=>{ const mo=ev.date.slice(0,7); if(!byMonth[mo]) byMonth[mo]=[]; byMonth[mo].push(ev); });
+  sorted.forEach(ev => { const mo=ev.date.slice(0,7); if(!byMonth[mo]) byMonth[mo]=[]; byMonth[mo].push(ev); });
   let html = '';
-  Object.keys(byMonth).sort().forEach(mo=>{
+  Object.keys(byMonth).sort().forEach(mo => {
     const [,m] = mo.split('-');
     html += `<div class="month-header"><span class="month-pill">${MONTHS[parseInt(m)-1]}</span><div class="month-line"></div></div>`;
     const byDay = {};
-    byMonth[mo].forEach(ev=>{ if(!byDay[ev.date]) byDay[ev.date]=[]; byDay[ev.date].push(ev); });
-    Object.keys(byDay).sort().forEach(dateStr=>{
+    byMonth[mo].forEach(ev => { if(!byDay[ev.date]) byDay[ev.date]=[]; byDay[ev.date].push(ev); });
+    Object.keys(byDay).sort().forEach(dateStr => {
       const evs = byDay[dateStr];
-      const d = new Date(dateStr+'T12:00:00');
-      const evHtml = evs.map(ev=>`
+      const d = new Date(dateStr + 'T12:00:00');
+      const evHtml = evs.map(ev => `
         <div class="cal-event">
-          <div style="display:flex;align-items:flex-start;gap:8px;flex:1;">
+          <div style="display:flex;align-items:flex-start;gap:8px;flex:1;cursor:pointer;" onclick="openEvent('${ev.id}')">
             <span class="tag ${CAT_TAG[ev.cat]||'tag-gray'}">${CAT_LBL[ev.cat]||'General'}</span>
-            <span>${esc(ev.label)}${ev.notes?`<div style="font-size:12px;color:var(--text-muted);margin-top:2px;">${esc(ev.notes)}</div>`:''}</span>
+            <span style="text-decoration:underline;text-decoration-color:var(--border);">${esc(ev.label)}${ev.notes?`<div style="font-size:12px;color:var(--text-muted);margin-top:2px;text-decoration:none;">${esc(ev.notes)}</div>`:''}</span>
           </div>
-          ${isAdmin?`<div class="cal-event-actions">
+          <div class="cal-event-actions">
             <button class="edit-btn" onclick="startEditEvent('${ev.id}')">Edit</button>
             <button class="del-btn" onclick="deleteEvent('${ev.id}')">✕</button>
-          </div>`:''}
+          </div>
         </div>`).join('');
       html += `<div class="cal-row"><div class="cal-date"><div class="day-num">${d.getDate()}</div><div class="day-name">${DAYS[d.getDay()]}</div></div><div class="cal-content">${evHtml}</div></div>`;
     });
@@ -730,78 +767,124 @@ function renderListView() {
 function renderMonthGrid() {
   const y=currentMonthDate.getFullYear(), m=currentMonthDate.getMonth();
   const el = document.getElementById('month-nav-title');
-  if(el) el.textContent = MONTHS[m]+' '+y;
+  if (el) el.textContent = MONTHS[m] + ' ' + y;
   const firstDay=new Date(y,m,1).getDay(), daysInMonth=new Date(y,m+1,0).getDate(), today=new Date();
   const totalCells=Math.ceil((firstDay+daysInMonth)/7)*7;
-  let html='';
-  for(let i=0;i<totalCells;i++){
+  let html = '';
+  for (let i=0; i<totalCells; i++) {
     const dayNum=i-firstDay+1, isThis=dayNum>=1&&dayNum<=daysInMonth;
     const dateStr=isThis?`${y}-${String(m+1).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}`:'';
     const isToday=isThis&&today.getFullYear()===y&&today.getMonth()===m&&today.getDate()===dayNum;
     const dayEvs=isThis?calEvents.filter(e=>e.date===dateStr):[];
-    html+=`<div class="month-cell${!isThis?' other-month':''}${isToday?' today':''}">`;
-    html+=`<span class="cell-date">${isThis?dayNum:''}</span>`;
-    dayEvs.slice(0,3).forEach(ev=>{ html+=`<span class="cell-event-label ${CAT_EV[ev.cat]||''}">${esc(ev.label)}</span>`; });
-    if(dayEvs.length>3) html+=`<span style="font-size:10px;color:var(--text-muted);">+${dayEvs.length-3} more</span>`;
-    html+='</div>';
+    html += `<div class="month-cell${!isThis?' other-month':''}${isToday?' today':''}">`;
+    html += `<span class="cell-date">${isThis?dayNum:''}</span>`;
+    dayEvs.slice(0,3).forEach(ev => { html += `<span class="cell-event-label ${CAT_EV[ev.cat]||''}" onclick="openEvent('${ev.id}')">${esc(ev.label)}</span>`; });
+    if (dayEvs.length>3) html += `<span style="font-size:10px;color:var(--text-muted);">+${dayEvs.length-3} more</span>`;
+    html += '</div>';
   }
   const grid = document.getElementById('month-grid');
-  if(grid) grid.innerHTML=html;
+  if (grid) grid.innerHTML = html;
 }
 
-window.selectCat = (cat,el) => {
-  document.querySelectorAll('#cal-form .opt').forEach(o=>o.classList.remove('selected'));
+function selectCat(cat, el) {
+  document.querySelectorAll('#cal-form .opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('ev-cat').value=cat;
-};
+  document.getElementById('ev-cat').value = cat;
+}
 
-window.startEditEvent = id => {
-  const ev = calEvents.find(e=>e.id===id);
-  if(!ev) return;
-  document.getElementById('ev-title').value=ev.label;
-  document.getElementById('ev-date').value=ev.date;
-  document.getElementById('ev-notes').value=ev.notes||'';
-  const catOrder=['pink','orange','green','teal','yellow','gray'];
-  document.querySelectorAll('#cal-form .opt').forEach((btn,i)=>btn.classList.toggle('selected',catOrder[i]===ev.cat));
-  document.getElementById('ev-cat').value=ev.cat;
-  editingEventId=id;
-  document.getElementById('ev-submit-btn').textContent='Save Changes';
-  document.getElementById('ev-cancel-btn').style.display='inline-block';
-  document.getElementById('ev-title').scrollIntoView({behavior:'smooth',block:'center'});
-};
+function startEditEvent(id) {
+  const ev = calEvents.find(e => e.id===id);
+  if (!ev) return;
+  document.getElementById('ev-title').value = ev.label;
+  document.getElementById('ev-date').value  = ev.date;
+  document.getElementById('ev-notes').value = ev.notes || '';
+  const catOrder = ['pink','orange','green','teal','yellow','gray'];
+  document.querySelectorAll('#cal-form .opt').forEach((btn,i) => btn.classList.toggle('selected', catOrder[i]===ev.cat));
+  document.getElementById('ev-cat').value = ev.cat;
+  editingEventId = id;
+  document.getElementById('ev-submit-btn').textContent = 'Save Changes';
+  document.getElementById('ev-cancel-btn').style.display = 'inline-block';
+  document.getElementById('ev-title').scrollIntoView({behavior:'smooth', block:'center'});
+}
 
-window.cancelEventEdit = () => {
-  editingEventId=null;
-  document.getElementById('ev-title').value='';
-  document.getElementById('ev-date').value='';
-  document.getElementById('ev-notes').value='';
-  document.getElementById('ev-submit-btn').textContent='Add to Calendar';
-  document.getElementById('ev-cancel-btn').style.display='none';
-};
+function cancelEventEdit() {
+  editingEventId = null;
+  document.getElementById('ev-title').value = '';
+  document.getElementById('ev-date').value  = '';
+  document.getElementById('ev-notes').value = '';
+  document.getElementById('ev-submit-btn').textContent = 'Add to Calendar';
+  document.getElementById('ev-cancel-btn').style.display = 'none';
+}
 
-window.submitEvent = async () => {
-  const title=document.getElementById('ev-title').value.trim();
-  const date=document.getElementById('ev-date').value;
-  const notes=document.getElementById('ev-notes').value.trim();
-  const cat=document.getElementById('ev-cat').value;
-  if(!title||!date){ alert('Please enter a title and date.'); return; }
+async function submitEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  const date  = document.getElementById('ev-date').value;
+  const notes = document.getElementById('ev-notes').value.trim();
+  const cat   = document.getElementById('ev-cat').value;
+  if (!title||!date) { alert('Please enter a title and date.'); return; }
   const id = editingEventId || (Date.now()+'-'+Math.random().toString(36).slice(2));
-  await setDoc(doc(db,'calEvents',id), {id,date,label:title,notes,cat});
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'calEvents',id), {id,date,label:title,notes,cat});
   toast(editingEventId ? 'Event updated!' : 'Event added!');
-  editingEventId=null;
-  document.getElementById('ev-title').value='';
-  document.getElementById('ev-date').value='';
-  document.getElementById('ev-notes').value='';
-  document.getElementById('ev-submit-btn').textContent='Add to Calendar';
-  document.getElementById('ev-cancel-btn').style.display='none';
-};
+  cancelEventEdit();
+}
 
-window.deleteEvent = async id => {
-  if(!confirm('Delete this event?')) return;
-  await deleteDoc(doc(db,'calEvents',id));
+async function deleteEvent(id) {
+  if (!confirm('Delete this event?')) return;
+  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'calEvents',id));
   toast('Event deleted.');
-  if(editingEventId===id) cancelEventEdit();
-};
+  if (editingEventId===id) cancelEventEdit();
+}
+
+// ── EVENT MODAL ──────────────────────────────────────────────────────
+function openEvent(id) {
+  const ev = calEvents.find(e => e.id===id);
+  if (!ev) return;
+  modalEventId = id;
+  const d = new Date(ev.date+'T12:00:00');
+  const dateStr = DAYS[d.getDay()]+', '+MONTHS[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();
+  const tagEl = document.getElementById('modal-cat-tag');
+  tagEl.textContent = CAT_LBL[ev.cat]||'General';
+  tagEl.className = 'modal-cat-tag tag '+(CAT_TAG[ev.cat]||'tag-gray');
+  document.getElementById('modal-title').textContent = ev.label;
+  document.getElementById('modal-date').textContent  = dateStr;
+  const notesSection = document.getElementById('modal-notes-section');
+  const notesEl = document.getElementById('modal-notes');
+  if (ev.notes) { notesSection.style.display='block'; notesEl.textContent=ev.notes; }
+  else { notesSection.style.display='none'; }
+  document.getElementById('modal-note-input').value = '';
+  document.getElementById('event-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('event-modal').classList.add('hidden');
+  modalEventId = null;
+}
+
+async function saveModalNote() {
+  const note = document.getElementById('modal-note-input').value.trim();
+  if (!note||!modalEventId) return;
+  const ev = calEvents.find(e => e.id===modalEventId);
+  if (!ev) return;
+  const updatedNotes = ev.notes ? ev.notes+'\n\n'+note : note;
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'calEvents',modalEventId), {...ev, notes:updatedNotes});
+  toast('Note saved!');
+  document.getElementById('modal-note-input').value = '';
+  document.getElementById('modal-notes').textContent = updatedNotes;
+  document.getElementById('modal-notes-section').style.display = 'block';
+}
+
+function editFromModal() {
+  const id = modalEventId;
+  closeModal();
+  showPage('calendar', document.querySelector('nav button:nth-child(2)'));
+  setTimeout(() => startEditEvent(id), 100);
+}
+
+async function deleteFromModal() {
+  const id = modalEventId;
+  closeModal();
+  await deleteEvent(id);
+}
 
 // ══════════════════════════════════════════════════════════════════════
 // WORKFLOWS
@@ -811,99 +894,98 @@ let editingWfId = null;
 let stepFieldCount = 0;
 
 function listenWorkflows() {
-  onSnapshot(collection(db,'workflows'), snap => {
+  window._fb.onSnapshot(window._fb.collection(window._fb.db,'workflows'), snap => {
     workflows = snap.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>(a.order||0)-(b.order||0));
     renderWorkflows();
   });
 }
 
-window.addStepField = (val='') => {
-  const id='step-field-'+(stepFieldCount++);
-  const div=document.createElement('div');
-  div.style.cssText='display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;';
-  div.innerHTML=`<textarea id="${id}" style="flex:1;min-height:60px;font-family:proxima-nova,sans-serif;font-size:13.5px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;" placeholder="Describe this step...">${esc(val)}</textarea><button onclick="this.parentElement.remove()" style="background:#fdecea;border:1px solid #f5c6c2;border-radius:6px;padding:4px 8px;font-size:13px;cursor:pointer;flex-shrink:0;margin-top:2px;">✕</button>`;
+function addStepField(val='') {
+  const id = 'step-field-'+(stepFieldCount++);
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;';
+  div.innerHTML = `<textarea id="${id}" style="flex:1;min-height:60px;font-family:proxima-nova,sans-serif;font-size:13.5px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;resize:vertical;" placeholder="Describe this step...">${esc(val)}</textarea><button onclick="this.parentElement.remove()" style="background:#fdecea;border:1px solid #f5c6c2;border-radius:6px;padding:4px 8px;font-size:13px;cursor:pointer;flex-shrink:0;margin-top:2px;">✕</button>`;
   document.getElementById('wf-steps-list').appendChild(div);
-};
+}
 
-function getStepValues(){ return Array.from(document.querySelectorAll('#wf-steps-list textarea')).map(t=>t.value.trim()).filter(Boolean); }
+function getStepValues() { return Array.from(document.querySelectorAll('#wf-steps-list textarea')).map(t=>t.value.trim()).filter(Boolean); }
 
-function clearWfForm(){
-  document.getElementById('wf-name').value='';
-  document.getElementById('wf-desc').value='';
-  document.getElementById('wf-steps-list').innerHTML='';
-  stepFieldCount=0;
+function clearWfForm() {
+  document.getElementById('wf-name').value = '';
+  document.getElementById('wf-desc').value = '';
+  document.getElementById('wf-steps-list').innerHTML = '';
+  stepFieldCount = 0;
   addStepField();
 }
 
-window.submitWorkflow = async () => {
-  const name=document.getElementById('wf-name').value.trim();
-  const desc=document.getElementById('wf-desc').value.trim();
-  const steps=getStepValues();
-  if(!name){ alert('Please enter a workflow name.'); return; }
-  if(!steps.length){ alert('Please add at least one step.'); return; }
-  const id=editingWfId||(Date.now()+'-'+Math.random().toString(36).slice(2));
-  const order=editingWfId?(workflows.find(w=>w.id===editingWfId)?.order||0):Date.now();
-  await setDoc(doc(db,'workflows',id),{id,name,desc,steps,order});
-  toast(editingWfId?'Workflow updated!':'Workflow saved!');
-  editingWfId=null;
-  document.getElementById('wf-submit-btn').textContent='Save Workflow';
-  document.getElementById('wf-cancel-btn').style.display='none';
+async function submitWorkflow() {
+  const name  = document.getElementById('wf-name').value.trim();
+  const desc  = document.getElementById('wf-desc').value.trim();
+  const steps = getStepValues();
+  if (!name)         { alert('Please enter a workflow name.'); return; }
+  if (!steps.length) { alert('Please add at least one step.'); return; }
+  const id    = editingWfId || (Date.now()+'-'+Math.random().toString(36).slice(2));
+  const order = editingWfId ? (workflows.find(w=>w.id===editingWfId)?.order||0) : Date.now();
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'workflows',id), {id,name,desc,steps,order});
+  toast(editingWfId ? 'Workflow updated!' : 'Workflow saved!');
+  editingWfId = null;
+  document.getElementById('wf-submit-btn').textContent = 'Save Workflow';
+  document.getElementById('wf-cancel-btn').style.display = 'none';
   clearWfForm();
-};
+}
 
-window.startEditWorkflow = id => {
-  const wf=workflows.find(w=>w.id===id);
-  if(!wf) return;
-  document.getElementById('wf-name').value=wf.name;
-  document.getElementById('wf-desc').value=wf.desc||'';
-  document.getElementById('wf-steps-list').innerHTML='';
-  stepFieldCount=0;
-  wf.steps.forEach(s=>addStepField(s));
-  editingWfId=id;
-  document.getElementById('wf-submit-btn').textContent='Save Changes';
-  document.getElementById('wf-cancel-btn').style.display='inline-block';
-  document.getElementById('wf-name').scrollIntoView({behavior:'smooth',block:'center'});
-};
+function startEditWorkflow(id) {
+  const wf = workflows.find(w=>w.id===id);
+  if (!wf) return;
+  document.getElementById('wf-name').value = wf.name;
+  document.getElementById('wf-desc').value = wf.desc||'';
+  document.getElementById('wf-steps-list').innerHTML = '';
+  stepFieldCount = 0;
+  wf.steps.forEach(s => addStepField(s));
+  editingWfId = id;
+  document.getElementById('wf-submit-btn').textContent = 'Save Changes';
+  document.getElementById('wf-cancel-btn').style.display = 'inline-block';
+  document.getElementById('wf-name').scrollIntoView({behavior:'smooth', block:'center'});
+}
 
-window.cancelWorkflowEdit = () => {
-  editingWfId=null;
+function cancelWorkflowEdit() {
+  editingWfId = null;
   clearWfForm();
-  document.getElementById('wf-submit-btn').textContent='Save Workflow';
-  document.getElementById('wf-cancel-btn').style.display='none';
-};
+  document.getElementById('wf-submit-btn').textContent = 'Save Workflow';
+  document.getElementById('wf-cancel-btn').style.display = 'none';
+}
 
-window.deleteWorkflow = async id => {
-  if(!confirm('Delete this workflow?')) return;
-  await deleteDoc(doc(db,'workflows',id));
+async function deleteWorkflow(id) {
+  if (!confirm('Delete this workflow?')) return;
+  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'workflows',id));
   toast('Workflow deleted.');
-  if(editingWfId===id) cancelWorkflowEdit();
-};
+  if (editingWfId===id) cancelWorkflowEdit();
+}
 
-window.toggleWorkflow = header => {
-  const body=header.nextElementSibling;
-  const chev=header.querySelector('.chevron');
-  const open=body.classList.contains('open');
-  body.classList.toggle('open',!open);
-  chev.classList.toggle('open',!open);
-  header.classList.toggle('expanded',!open);
-};
+function toggleWorkflow(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chevron');
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  header.classList.toggle('expanded', !open);
+}
 
 function renderWorkflows() {
-  const el=document.getElementById('workflows-list');
-  const isAdmin=document.body.classList.contains('is-admin');
-  if(!workflows.length){
-    el.innerHTML='<div class="card" style="color:var(--text-muted);font-size:14px;text-align:center;padding:2rem;">No workflows yet.'+(isAdmin?' Add your first one below.':'')+'</div>';
+  const el = document.getElementById('workflows-list');
+  if (!workflows.length) {
+    el.innerHTML = '<div class="card" style="color:var(--text-muted);font-size:14px;text-align:center;padding:2rem;">No workflows yet. Add your first one below.</div>';
     return;
   }
-  el.innerHTML=workflows.map(wf=>`
+  el.innerHTML = workflows.map(wf => `
     <div class="workflow-card">
       <div class="workflow-header" onclick="toggleWorkflow(this)">
         <div class="workflow-title">${esc(wf.name)}<span class="workflow-badge">${wf.steps.length} step${wf.steps.length!==1?'s':''}</span></div>
         <div style="display:flex;align-items:center;gap:8px;">
-          ${isAdmin?`<div class="workflow-actions" onclick="event.stopPropagation()">
+          <div class="workflow-actions" onclick="event.stopPropagation()">
             <button class="edit-btn" onclick="startEditWorkflow('${wf.id}')">Edit</button>
             <button class="del-btn" onclick="deleteWorkflow('${wf.id}')">Delete</button>
-          </div>`:''}
+          </div>
           <span class="chevron">▼</span>
         </div>
       </div>
@@ -933,40 +1015,40 @@ const DEFAULT_SITUATIONS = [
 ];
 
 async function listenSituations() {
-  const col = collection(db,'situations');
-  const snap = await getDocs(col);
-  if(snap.empty){
-    for(const s of DEFAULT_SITUATIONS){
-      const id=Date.now()+'-'+Math.random().toString(36).slice(2);
-      await setDoc(doc(db,'situations',id),{...s,id});
+  const col = window._fb.collection(window._fb.db, 'situations');
+  const snap = await window._fb.getDocs(col);
+  if (snap.empty) {
+    for (const s of DEFAULT_SITUATIONS) {
+      const id = Date.now()+'-'+Math.random().toString(36).slice(2);
+      await window._fb.setDoc(window._fb.doc(window._fb.db,'situations',id), {...s,id});
       await new Promise(r=>setTimeout(r,10));
     }
   }
-  onSnapshot(col, snap=>{
-    situations=snap.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>(a.order||0)-(b.order||0));
+  window._fb.onSnapshot(col, snap => {
+    situations = snap.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>(a.order||0)-(b.order||0));
     renderSituations();
   });
 }
 
-const URG_DOT={high:'urgency-high',med:'urgency-med',low:'urgency-low'};
+const URG_DOT = {high:'urgency-high',med:'urgency-med',low:'urgency-low'};
 
-window.toggleSituation = header => {
-  const body=header.nextElementSibling;
-  const chev=header.querySelector('.chevron');
-  const open=body.classList.contains('open');
-  body.classList.toggle('open',!open);
-  chev.classList.toggle('open',!open);
-  header.classList.toggle('expanded',!open);
-};
+function toggleSituation(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chevron');
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  header.classList.toggle('expanded', !open);
+}
 
-function renderSituations(){
-  const isAdmin=document.body.classList.contains('is-admin');
-  document.getElementById('situations-list').innerHTML=situations.map(s=>`
+function renderSituations() {
+  document.getElementById('situations-list').innerHTML = situations.map(s => `
     <div class="situation-card">
       <div class="situation-header" onclick="toggleSituation(this)">
         <div class="situation-title"><span class="urgency-dot ${URG_DOT[s.urgency]}"></span>${esc(s.title)}</div>
         <div style="display:flex;align-items:center;gap:8px;" onclick="event.stopPropagation()">
-          ${isAdmin?`<button class="edit-btn" onclick="startEditSit('${s.id}')">Edit</button><button class="del-btn" onclick="deleteSit('${s.id}')">✕</button>`:''}
+          <button class="edit-btn" onclick="startEditSit('${s.id}')">Edit</button>
+          <button class="del-btn" onclick="deleteSit('${s.id}')">✕</button>
           <span class="chevron">▼</span>
         </div>
       </div>
@@ -974,56 +1056,52 @@ function renderSituations(){
     </div>`).join('');
 }
 
-window.selectSitUrgency = (val,el) => {
-  document.querySelectorAll('#sit-form .opt').forEach(o=>o.classList.remove('selected'));
+function selectSitUrgency(val, el) {
+  document.querySelectorAll('#sit-form .opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('sit-urgency').value=val;
-};
+  document.getElementById('sit-urgency').value = val;
+}
 
-window.startEditSit = id => {
-  const s=situations.find(x=>x.id===id);
-  if(!s) return;
-  document.getElementById('sit-title').value=s.title;
-  document.getElementById('sit-body').value=s.body;
-  const urgOrder=['high','med','low'];
-  document.querySelectorAll('#sit-form .opt').forEach((btn,i)=>btn.classList.toggle('selected',urgOrder[i]===s.urgency));
-  document.getElementById('sit-urgency').value=s.urgency;
-  editingSitId=id;
-  document.getElementById('sit-submit-btn').textContent='Save Changes';
-  document.getElementById('sit-cancel-btn').style.display='inline-block';
-  document.getElementById('sit-title').scrollIntoView({behavior:'smooth',block:'center'});
-};
+function startEditSit(id) {
+  const s = situations.find(x => x.id===id);
+  if (!s) return;
+  document.getElementById('sit-title').value = s.title;
+  document.getElementById('sit-body').value  = s.body;
+  const urgOrder = ['high','med','low'];
+  document.querySelectorAll('#sit-form .opt').forEach((btn,i) => btn.classList.toggle('selected', urgOrder[i]===s.urgency));
+  document.getElementById('sit-urgency').value = s.urgency;
+  editingSitId = id;
+  document.getElementById('sit-submit-btn').textContent = 'Save Changes';
+  document.getElementById('sit-cancel-btn').style.display = 'inline-block';
+  document.getElementById('sit-title').scrollIntoView({behavior:'smooth', block:'center'});
+}
 
-window.cancelSitEdit = () => {
-  editingSitId=null;
-  document.getElementById('sit-title').value='';
-  document.getElementById('sit-body').value='';
-  document.getElementById('sit-submit-btn').textContent='Add Guide';
-  document.getElementById('sit-cancel-btn').style.display='none';
-};
+function cancelSitEdit() {
+  editingSitId = null;
+  document.getElementById('sit-title').value = '';
+  document.getElementById('sit-body').value  = '';
+  document.getElementById('sit-submit-btn').textContent = 'Add Guide';
+  document.getElementById('sit-cancel-btn').style.display = 'none';
+}
 
-window.submitSituation = async () => {
-  const title=document.getElementById('sit-title').value.trim();
-  const body=document.getElementById('sit-body').value.trim();
-  const urgency=document.getElementById('sit-urgency').value;
-  if(!title||!body){ alert('Please fill in both fields.'); return; }
-  const id=editingSitId||(Date.now()+'-'+Math.random().toString(36).slice(2));
-  const order=editingSitId?(situations.find(s=>s.id===editingSitId)?.order||Date.now()):Date.now();
-  await setDoc(doc(db,'situations',id),{id,title,body,urgency,order});
-  toast(editingSitId?'Guide updated!':'Guide added!');
-  editingSitId=null;
-  document.getElementById('sit-title').value='';
-  document.getElementById('sit-body').value='';
-  document.getElementById('sit-submit-btn').textContent='Add Guide';
-  document.getElementById('sit-cancel-btn').style.display='none';
-};
+async function submitSituation() {
+  const title   = document.getElementById('sit-title').value.trim();
+  const body    = document.getElementById('sit-body').value.trim();
+  const urgency = document.getElementById('sit-urgency').value;
+  if (!title||!body) { alert('Please fill in both fields.'); return; }
+  const id    = editingSitId || (Date.now()+'-'+Math.random().toString(36).slice(2));
+  const order = editingSitId ? (situations.find(s=>s.id===editingSitId)?.order||Date.now()) : Date.now();
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'situations',id), {id,title,body,urgency,order});
+  toast(editingSitId ? 'Guide updated!' : 'Guide added!');
+  cancelSitEdit();
+}
 
-window.deleteSit = async id => {
-  if(!confirm('Delete this guide?')) return;
-  await deleteDoc(doc(db,'situations',id));
+async function deleteSit(id) {
+  if (!confirm('Delete this guide?')) return;
+  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'situations',id));
   toast('Guide deleted.');
-  if(editingSitId===id) cancelSitEdit();
-};
+  if (editingSitId===id) cancelSitEdit();
+}
 
 // ══════════════════════════════════════════════════════════════════════
 // LINKS
@@ -1040,29 +1118,28 @@ const DEFAULT_LINKS = [
   {title:'Email / Gmail',url:'https://mail.google.com',desc:'BRYC team email for community and partner outreach',cat:'Platforms & Tools',icon:'📧',order:6},
 ];
 
-async function listenLinks(){
-  const col=collection(db,'links');
-  const snap=await getDocs(col);
-  if(snap.empty){
-    for(const l of DEFAULT_LINKS){
-      const id=Date.now()+'-'+Math.random().toString(36).slice(2);
-      await setDoc(doc(db,'links',id),{...l,id});
+async function listenLinks() {
+  const col = window._fb.collection(window._fb.db, 'links');
+  const snap = await window._fb.getDocs(col);
+  if (snap.empty) {
+    for (const l of DEFAULT_LINKS) {
+      const id = Date.now()+'-'+Math.random().toString(36).slice(2);
+      await window._fb.setDoc(window._fb.doc(window._fb.db,'links',id), {...l,id});
       await new Promise(r=>setTimeout(r,10));
     }
   }
-  onSnapshot(col,snap=>{
-    links=snap.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>(a.order||0)-(b.order||0));
+  window._fb.onSnapshot(col, snap => {
+    links = snap.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>(a.order||0)-(b.order||0));
     renderLinks();
   });
 }
 
-function renderLinks(){
-  const isAdmin=document.body.classList.contains('is-admin');
-  const container=document.getElementById('links-container');
-  if(!links.length){ container.innerHTML='<p style="color:var(--text-muted);font-size:14px;padding:1rem 0;">No links yet.</p>'; return; }
-  const cats=[...new Set(links.map(l=>l.cat))];
-  container.innerHTML=cats.map(cat=>{
-    const catLinks=links.filter(l=>l.cat===cat);
+function renderLinks() {
+  const container = document.getElementById('links-container');
+  if (!links.length) { container.innerHTML='<p style="color:var(--text-muted);font-size:14px;padding:1rem 0;">No links yet.</p>'; return; }
+  const cats = [...new Set(links.map(l=>l.cat))];
+  container.innerHTML = cats.map(cat => {
+    const catLinks = links.filter(l=>l.cat===cat);
     return `<div class="link-cat-header"><span class="link-cat-label">${cat}</span><div class="link-cat-line"></div></div>
     <div class="link-grid">${catLinks.map(l=>`
       <div class="link-card">
@@ -1070,7 +1147,10 @@ function renderLinks(){
         <div class="link-info">
           <div class="link-title-row">
             <a href="${esc(l.url)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;"><div class="link-name">${esc(l.title)}</div></a>
-            ${isAdmin?`<div class="link-actions"><button class="edit-btn" onclick="startEditLink('${l.id}')">Edit</button><button class="del-btn" onclick="deleteLink('${l.id}')">✕</button></div>`:''}
+            <div class="link-actions">
+              <button class="edit-btn" onclick="startEditLink('${l.id}')">Edit</button>
+              <button class="del-btn" onclick="deleteLink('${l.id}')">✕</button>
+            </div>
           </div>
           ${l.desc?`<div class="link-desc">${esc(l.desc)}</div>`:''}
           <div class="link-url">${esc(l.url)}</div>
@@ -1080,63 +1160,57 @@ function renderLinks(){
   }).join('');
 }
 
-window.selectIcon = (icon,el) => {
-  document.querySelectorAll('#link-form .opt').forEach(o=>o.classList.remove('selected'));
+function selectIcon(icon, el) {
+  document.querySelectorAll('#link-form .opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('lnk-icon').value=icon;
-};
+  document.getElementById('lnk-icon').value = icon;
+}
 
-window.startEditLink = id => {
-  const l=links.find(x=>x.id===id);
-  if(!l) return;
-  document.getElementById('lnk-title').value=l.title;
-  document.getElementById('lnk-url').value=l.url;
-  document.getElementById('lnk-desc').value=l.desc||'';
-  document.getElementById('lnk-cat').value=l.cat;
-  document.getElementById('lnk-icon').value=l.icon;
-  const icons=['📋','📁','🔗','📊','📱','🔑','📧','🏢','🗓️','💬'];
-  document.querySelectorAll('#link-form .opt').forEach((btn,i)=>btn.classList.toggle('selected',icons[i]===l.icon));
-  editingLinkId=id;
-  document.getElementById('lnk-submit-btn').textContent='Save Changes';
-  document.getElementById('lnk-cancel-btn').style.display='inline-block';
-  document.getElementById('lnk-title').scrollIntoView({behavior:'smooth',block:'center'});
-};
+function startEditLink(id) {
+  const l = links.find(x=>x.id===id);
+  if (!l) return;
+  document.getElementById('lnk-title').value = l.title;
+  document.getElementById('lnk-url').value   = l.url;
+  document.getElementById('lnk-desc').value  = l.desc||'';
+  document.getElementById('lnk-cat').value   = l.cat;
+  document.getElementById('lnk-icon').value  = l.icon;
+  const icons = ['📋','📁','🔗','📊','📱','🔑','📧','🏢','🗓️','💬'];
+  document.querySelectorAll('#link-form .opt').forEach((btn,i) => btn.classList.toggle('selected', icons[i]===l.icon));
+  editingLinkId = id;
+  document.getElementById('lnk-submit-btn').textContent = 'Save Changes';
+  document.getElementById('lnk-cancel-btn').style.display = 'inline-block';
+  document.getElementById('lnk-title').scrollIntoView({behavior:'smooth', block:'center'});
+}
 
-window.cancelLinkEdit = () => {
-  editingLinkId=null;
-  document.getElementById('lnk-title').value='';
-  document.getElementById('lnk-url').value='';
-  document.getElementById('lnk-desc').value='';
-  document.getElementById('lnk-submit-btn').textContent='Add Link';
-  document.getElementById('lnk-cancel-btn').style.display='none';
-};
+function cancelLinkEdit() {
+  editingLinkId = null;
+  document.getElementById('lnk-title').value = '';
+  document.getElementById('lnk-url').value   = '';
+  document.getElementById('lnk-desc').value  = '';
+  document.getElementById('lnk-submit-btn').textContent = 'Add Link';
+  document.getElementById('lnk-cancel-btn').style.display = 'none';
+}
 
-window.submitLink = async () => {
-  const title=document.getElementById('lnk-title').value.trim();
-  const url=document.getElementById('lnk-url').value.trim();
-  const desc=document.getElementById('lnk-desc').value.trim();
-  const cat=document.getElementById('lnk-cat').value;
-  const icon=document.getElementById('lnk-icon').value;
-  if(!title||!url){ alert('Please enter a title and URL.'); return; }
-  const id=editingLinkId||(Date.now()+'-'+Math.random().toString(36).slice(2));
-  const order=editingLinkId?(links.find(l=>l.id===editingLinkId)?.order||Date.now()):Date.now();
-  await setDoc(doc(db,'links',id),{id,title,url,desc,cat,icon,order});
-  toast(editingLinkId?'Link updated!':'Link added!');
-  editingLinkId=null;
-  document.getElementById('lnk-title').value='';
-  document.getElementById('lnk-url').value='';
-  document.getElementById('lnk-desc').value='';
-  document.getElementById('lnk-submit-btn').textContent='Add Link';
-  document.getElementById('lnk-cancel-btn').style.display='none';
-};
+async function submitLink() {
+  const title = document.getElementById('lnk-title').value.trim();
+  const url   = document.getElementById('lnk-url').value.trim();
+  const desc  = document.getElementById('lnk-desc').value.trim();
+  const cat   = document.getElementById('lnk-cat').value;
+  const icon  = document.getElementById('lnk-icon').value;
+  if (!title||!url) { alert('Please enter a title and URL.'); return; }
+  const id    = editingLinkId || (Date.now()+'-'+Math.random().toString(36).slice(2));
+  const order = editingLinkId ? (links.find(l=>l.id===editingLinkId)?.order||Date.now()) : Date.now();
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'links',id), {id,title,url,desc,cat,icon,order});
+  toast(editingLinkId ? 'Link updated!' : 'Link added!');
+  cancelLinkEdit();
+}
 
-window.deleteLink = async id => {
-  if(!confirm('Delete this link?')) return;
-  await deleteDoc(doc(db,'links',id));
+async function deleteLink(id) {
+  if (!confirm('Delete this link?')) return;
+  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'links',id));
   toast('Link deleted.');
-  if(editingLinkId===id) cancelLinkEdit();
-};
-
+  if (editingLinkId===id) cancelLinkEdit();
+}
 </script>
 </body>
 </html>

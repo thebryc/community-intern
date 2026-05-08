@@ -147,8 +147,8 @@
   .month-nav-btn { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:6px 14px; cursor:pointer; font-family:'proxima-nova',sans-serif; font-size:13px; font-weight:600; color:var(--text-muted); transition:all .15s; }
   .month-nav-btn:hover { border-color:var(--pink); color:var(--pink); }
   .month-grid-header { display:grid; grid-template-columns:repeat(7,1fr); text-align:center; margin-bottom:4px; }
-  .month-grid-header span { font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--text-muted); padding:6px 0; }
-  .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; grid-auto-rows:minmax(110px,auto); }
+  .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; grid-auto-rows:1fr; }
+  .month-cell { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:6px; font-size:12px; position:relative; display:flex; flex-direction:column; min-height:110px; }
   .month-cell { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:6px; font-size:12px; position:relative; display:flex; flex-direction:column; }
   .month-cell.other-month { background:#f5f3ef; opacity:.5; }
   .month-cell.today { border-color:var(--pink); border-width:2px; }

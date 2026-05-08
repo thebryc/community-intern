@@ -1133,20 +1133,22 @@ function renderLinks() {
     const catLinks = links.filter(l=>l.cat===cat);
     return `<div class="link-cat-header"><span class="link-cat-label">${cat}</span><div class="link-cat-line"></div></div>
     <div class="link-grid">${catLinks.map(l=>`
-      <div class="link-card">
-        <div class="link-icon">${l.icon}</div>
-        <div class="link-info">
+      <a href="${esc(l.url)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+      <div class="link-card" style="height:100%;cursor:pointer;">
+        <div class="link-icon" style="flex-shrink:0;">${l.icon}</div>
+        <div class="link-info" style="min-width:0;overflow:hidden;">
           <div class="link-title-row">
-            <a href="${esc(l.url)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;"><div class="link-name">${esc(l.title)}</div></a>
-            <div class="link-actions">
+            <div class="link-name" style="white-space:normal;overflow-wrap:break-word;">${esc(l.title)}</div>
+            <div class="link-actions" onclick="event.stopPropagation();event.preventDefault();">
               <button class="edit-btn" onclick="startEditLink('${l.id}')">Edit</button>
               <button class="del-btn" onclick="deleteLink('${l.id}')">✕</button>
             </div>
           </div>
-          ${l.desc?`<div class="link-desc">${esc(l.desc)}</div>`:''}
-          <div class="link-url">${esc(l.url)}</div>
+          ${l.desc?`<div class="link-desc" style="white-space:normal;overflow-wrap:break-word;">${esc(l.desc)}</div>`:''}
+          <div class="link-url" style="white-space:normal;overflow-wrap:break-word;">${esc(l.url)}</div>
         </div>
-      </div>`).join('')}
+      </div>
+      </a>`).join('')}
     </div>`;
   }).join('');
 }

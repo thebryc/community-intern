@@ -1104,19 +1104,6 @@ async function deleteWorkflow(id) {
   if (editingWfId===id) cancelWorkflowEdit();
 } 
 
-async function moveWorkflow(id, dir) {
-  const sorted = [...workflows].sort((a,b)=>(a.order||0)-(b.order||0));
-  const idx = sorted.findIndex(w => w.id === id);
-  const swapIdx = idx + dir;
-  if (swapIdx < 0 || swapIdx >= sorted.length) return;
-  const a = sorted[idx];
-  const b = sorted[swapIdx];
-  const newOrderA = (b.order || 0);
-  const newOrderB = (a.order || 0);
-  await window._fb.setDoc(window._fb.doc(window._fb.db,'workflows',a.id), {...a, order: newOrderB - 0.5});
-  await window._fb.setDoc(window._fb.doc(window._fb.db,'workflows',b.id), {...b, order: newOrderA + 0.5});
-}
-
 function toggleWorkflow(header) {
   const body = header.nextElementSibling;
   const chev = header.querySelector('.chevron');
@@ -1133,13 +1120,17 @@ function renderWorkflows() {
     return;
   }
   el.innerHTML = workflows.map(wf => `
-    <div class="workflow-card">
+    <div class="workflow-card" draggable="true" data-id="${wf.id}" 
+         ondragstart="dragStart(event)" ondragover="dragOver(event)" 
+         ondrop="dragDrop(event)" ondragend="dragEnd(event)"
+         style="cursor:grab;">
       <div class="workflow-header" onclick="toggleWorkflow(this)">
-        <div class="workflow-title">${esc(wf.name)}<span class="workflow-badge">${wf.steps.length} step${wf.steps.length!==1?'s':''}</span></div>
+        <div class="workflow-title">
+          <span style="color:var(--text-muted);margin-right:6px;cursor:grab;">⠿</span>
+          ${esc(wf.name)}<span class="workflow-badge">${wf.steps.length} step${wf.steps.length!==1?'s':''}</span>
+        </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="workflow-actions" onclick="event.stopPropagation()">
-            <button class="edit-btn" onclick="moveWorkflow('${wf.id}',-1)" title="Move up">↑</button>
-            <button class="edit-btn" onclick="moveWorkflow('${wf.id}',1)" title="Move down">↓</button>
             <button class="edit-btn" onclick="startEditWorkflow('${wf.id}')">Edit</button>
             <button class="del-btn" onclick="deleteWorkflow('${wf.id}')">Delete</button>
           </div>
@@ -1152,6 +1143,51 @@ function renderWorkflows() {
       </div>
     </div>`).join('');
 }
+
+ let dragSrcId = null;
+
+function dragStart(e) {
+  dragSrcId = e.currentTarget.dataset.id;
+  e.currentTarget.style.opacity = '0.4';
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function dragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.style.borderColor = 'var(--pink)';
+}
+
+function dragEnd(e) {
+  e.currentTarget.style.opacity = '1';
+  document.querySelectorAll('.workflow-card').forEach(c => c.style.borderColor = '');
+}
+
+async function dragDrop(e) {
+  e.preventDefault();
+  const targetId = e.currentTarget.dataset.id;
+  if (!dragSrcId || dragSrcId === targetId) return;
+  e.currentTarget.style.borderColor = '';
+
+  const sorted = [...workflows].sort((a,b)=>(a.order||0)-(b.order||0));
+  const srcIdx = sorted.findIndex(w => w.id === dragSrcId);
+  const tgtIdx = sorted.findIndex(w => w.id === targetId);
+
+  // Reassign order values based on new positions
+  const reordered = [...sorted];
+  const [moved] = reordered.splice(srcIdx, 1);
+  reordered.splice(tgtIdx, 0, moved);
+
+  for (let i = 0; i < reordered.length; i++) {
+    if (reordered[i].order !== i * 10) {
+      await window._fb.setDoc(
+        window._fb.doc(window._fb.db, 'workflows', reordered[i].id),
+        { ...reordered[i], order: i * 10 }
+      );
+    }
+  }
+  dragSrcId = null;
+} 
 
 // ══════════════════════════════════════════════════════════════════════
 // SITUATIONS

@@ -86,7 +86,7 @@
   .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 8px; border-radius:4px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
   .tag-pink{background:#fce4ec;color:#880e4f;} .tag-orange{background:#fff3e0;color:#e65100;}
   .tag-green{background:#e8f5e9;color:#1b5e20;} .tag-teal{background:#e0f7fa;color:#006064;}
-  .tag-yellow{background:var(--gold-pale);color:#7a5800;} .tag-gray{background:#f0f0f0;color:#444;}
+  .tag-yellow{background:var(--gold-pale);color:#7a5800;} .tag-gray{background:#f0f0f0;color:#444;}  .tag-red{background:#fdecea;color:#c0392b;}
 
   /* ── FORMS ── */
   .add-form { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; }
@@ -157,7 +157,8 @@
   .cell-event-label { font-size:10px; font-weight:600; color:#fff; background:var(--pink); border-radius:3px; padding:1px 5px; margin-bottom:2px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.5; cursor:pointer; }
   .cell-event-label.ev-orange{background:#e65100;} .cell-event-label.ev-green{background:#1b5e20;}
   .cell-event-label.ev-teal{background:#006064;} .cell-event-label.ev-yellow{background:#7a5800;}
-  .cell-event-label.ev-gray{background:#888;}
+  .cell-event-label.ev-gray{background:#888;} 
+  .cell-event-label.ev-red{background:#c0392b;}
 
   /* ── EVENT MODAL ── */
   #event-modal { position:fixed; inset:0; background:rgba(0,0,0,.45); display:flex; align-items:center; justify-content:center; z-index:500; padding:1rem; }
@@ -780,9 +781,9 @@ function initData() {
 // CALENDAR
 // ══════════════════════════════════════════════════════════════════════
 let calEvents = [];
-const CAT_TAG = {pink:'tag-pink',orange:'tag-orange',green:'tag-green',teal:'tag-teal',yellow:'tag-yellow',gray:'tag-gray'};
-const CAT_LBL = {pink:'Community',orange:'Social',green:'Volunteers',teal:'Seniors',yellow:'Fellows',gray:'General'};
-const CAT_EV  = {pink:'',orange:'ev-orange',green:'ev-green',teal:'ev-teal',yellow:'ev-yellow',gray:'ev-gray'};
+const CAT_TAG = {pink:'tag-pink',orange:'tag-orange',green:'tag-green',teal:'tag-teal',yellow:'tag-yellow',gray:'tag-gray',red:'tag-red'};
+const CAT_LBL = {pink:'Community',orange:'Social',green:'Volunteers',teal:'Seniors',yellow:'Fellows',gray:'General',red:'Out of Office'};
+const CAT_EV  = {pink:'',orange:'ev-orange',green:'ev-green',teal:'ev-teal',yellow:'ev-yellow',gray:'ev-gray',red:'ev-red'};
 const MONTHS  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 

@@ -726,7 +726,8 @@ function changeMonth(dir) {
 }
 
 function renderListView() {
-  const sorted = [...calEvents].filter(ev=>ev.date).sort((a,b)=>a.date.localeCompare(b.date));
+  const today = new Date().toISOString().slice(0,10);
+  const sorted = [...calEvents].filter(ev=>ev.date && ev.date >= today).sort((a,b)=>a.date.localeCompare(b.date));
   const byMonth = {};
   sorted.forEach(ev => { const mo=ev.date.slice(0,7); if(!byMonth[mo]) byMonth[mo]=[]; byMonth[mo].push(ev); });
   let html = '';

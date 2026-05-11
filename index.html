@@ -1104,6 +1104,19 @@ async function deleteWorkflow(id) {
   if (editingWfId===id) cancelWorkflowEdit();
 } 
 
+async function moveWorkflow(id, dir) {
+  const sorted = [...workflows].sort((a,b)=>(a.order||0)-(b.order||0));
+  const idx = sorted.findIndex(w => w.id === id);
+  const swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= sorted.length) return;
+  const a = sorted[idx];
+  const b = sorted[swapIdx];
+  const newOrderA = (b.order || 0);
+  const newOrderB = (a.order || 0);
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'workflows',a.id), {...a, order: newOrderB - 0.5});
+  await window._fb.setDoc(window._fb.doc(window._fb.db,'workflows',b.id), {...b, order: newOrderA + 0.5});
+}
+
 function toggleWorkflow(header) {
   const body = header.nextElementSibling;
   const chev = header.querySelector('.chevron');

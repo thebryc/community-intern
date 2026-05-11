@@ -1096,6 +1096,13 @@ async function deleteWorkflow(id) {
   if (editingWfId===id) cancelWorkflowEdit();
 }
 
+async function deleteWorkflow(id) {
+  if (!confirm('Delete this workflow?')) return;
+  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'workflows',id));
+  toast('Workflow deleted.');
+  if (editingWfId===id) cancelWorkflowEdit();
+} 
+
 function toggleWorkflow(header) {
   const body = header.nextElementSibling;
   const chev = header.querySelector('.chevron');
@@ -1117,6 +1124,8 @@ function renderWorkflows() {
         <div class="workflow-title">${esc(wf.name)}<span class="workflow-badge">${wf.steps.length} step${wf.steps.length!==1?'s':''}</span></div>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="workflow-actions" onclick="event.stopPropagation()">
+            <button class="edit-btn" onclick="moveWorkflow('${wf.id}',-1)" title="Move up">↑</button>
+            <button class="edit-btn" onclick="moveWorkflow('${wf.id}',1)" title="Move down">↓</button>
             <button class="edit-btn" onclick="startEditWorkflow('${wf.id}')">Edit</button>
             <button class="del-btn" onclick="deleteWorkflow('${wf.id}')">Delete</button>
           </div>

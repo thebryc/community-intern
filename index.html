@@ -438,6 +438,11 @@
   <div class="agenda-note">
     💡 This page will stay live — come back anytime to reference what we covered during onboarding.
   </div>
+
+  <div class="section-label" style="margin-bottom:6px;margin-top:1.5rem;">Notes</div>
+  <div class="card">
+    <textarea id="onboarding-notes" placeholder="Use this space to jot down anything from the meeting — questions, action items, things to remember..." style="width:100%;min-height:300px;font-family:'proxima-nova',sans-serif;font-size:14px;line-height:1.7;border:none;outline:none;resize:vertical;background:transparent;color:var(--text);"></textarea>
+  </div>
 </div>
 
 <!-- CALENDAR -->
@@ -744,6 +749,31 @@ function initData() {
   listenLinks();
   addStepField();
   renderMonthGrid();
+  initOnboardingNotes();
+}
+
+  function initOnboardingNotes() {
+  const textarea = document.getElementById('onboarding-notes');
+  if (!textarea) return;
+
+  // Load existing notes
+  window._fb.getDocs(window._fb.collection(window._fb.db, 'onboardingNotes')).then(snap => {
+    if (!snap.empty) {
+      textarea.value = snap.docs[0].data().notes || '';
+    }
+  });
+
+  // Save on every keystroke with debounce
+  let saveTimer;
+  textarea.addEventListener('input', () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      await window._fb.setDoc(
+        window._fb.doc(window._fb.db, 'onboardingNotes', 'shared'),
+        { notes: textarea.value }
+      );
+    }, 1000);
+  });
 }
 
 // ══════════════════════════════════════════════════════════════════════

@@ -225,6 +225,23 @@
     .form-row-2 { grid-template-columns:1fr; }
     .workflow-step { grid-template-columns:60px 1fr; }
   }
+  /* ── ONBOARDING CARD ── */
+  .onboarding-banner { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; cursor:pointer; transition:border-color .15s, box-shadow .15s; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .onboarding-banner:hover { border-color:var(--pink); box-shadow:0 2px 12px rgba(237,18,95,.1); }
+  .onboarding-banner-left { display:flex; align-items:center; gap:14px; }
+  .onboarding-banner-icon { width:44px; height:44px; background:var(--pink-pale); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .onboarding-banner-text h3 { font-size:15px; font-weight:700; color:var(--text); margin-bottom:2px; }
+  .onboarding-banner-text p { font-size:13px; color:var(--text-muted); margin:0; }
+  .onboarding-banner-arrow { font-size:18px; color:var(--text-muted); flex-shrink:0; }
+
+  /* ── ONBOARDING PAGE ── */
+  .agenda-row { display:grid; grid-template-columns:90px 1fr; gap:0; border-bottom:1px solid var(--border); padding:14px 0; align-items:start; }
+  .agenda-row:last-child { border-bottom:none; }
+  .agenda-time { font-size:13px; font-weight:700; color:var(--pink); padding-top:2px; }
+  .agenda-content { font-size:14px; color:var(--text); line-height:1.5; }
+  .agenda-content .agenda-title { font-weight:700; margin-bottom:2px; }
+  .agenda-content .agenda-duration { font-size:12px; color:var(--text-muted); }
+  .agenda-note { background:var(--gold-pale); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; padding:10px 14px; margin-top:1rem; font-size:13.5px; color:#5c3d00; }
 </style>
 </head>
 <body>
@@ -307,6 +324,17 @@
     </div>
   </div>
 
+  <div class="onboarding-banner" onclick="showPage('onboarding',null)">
+    <div class="onboarding-banner-left">
+      <div class="onboarding-banner-icon">📋</div>
+      <div class="onboarding-banner-text">
+        <h3>First Day Onboarding — Wednesday, May 13</h3>
+        <p>Your agenda for the morning meeting. Tap to view what we'll cover.</p>
+      </div>
+    </div>
+    <div class="onboarding-banner-arrow">→</div>
+  </div>
+
   <div class="section-label" style="margin-bottom:6px;">Your Role</div>
   <div class="card">
     <h3 style="font-size:15px;margin-bottom:4px;">Community Engagement & Communications Intern</h3>
@@ -325,6 +353,90 @@
         <ul><li>Facilities setup & space prep</li><li>Fellow event preparation</li><li>Support CEO, CoS, Deputy CoS</li><li>Training logistics & errands</li></ul>
       </div>
     </div>
+  </div>
+</div>
+
+  <!-- ONBOARDING -->
+<div class="page" id="page-onboarding">
+  <div class="hero">
+    <div class="hero-eyebrow">Wednesday, May 13 · 10:00 AM</div>
+    <h1>First Day Onboarding</h1>
+    <p>Your agenda for Wednesday morning. Come back to this page anytime to reference what we covered.</p>
+    <div class="contact-strip">
+      <div class="contact-chip"><strong>Location</strong>Green Building</div>
+      <div class="contact-chip"><strong>Start Time</strong>10:00 AM</div>
+      <div class="contact-chip"><strong>End Time</strong>~11:30 AM</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:6px;">Wednesday Morning Agenda</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="agenda-row">
+      <div class="agenda-time">10:00</div>
+      <div class="agenda-content">
+        <div class="agenda-title">🏢 Building Tour</div>
+        <div class="agenda-duration">30 minutes</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">10:30</div>
+      <div class="agenda-content">
+        <div class="agenda-title">👋 Introductions & Roles</div>
+        <div class="agenda-duration">5 minutes · Green Building</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Meet the team and learn how everyone's roles connect.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">10:35</div>
+      <div class="agenda-content">
+        <div class="agenda-title">💻 Onboarding, Tech & Logins</div>
+        <div class="agenda-duration">10 minutes</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Housekeeping, tech setup, logins, and introduction to this site.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">10:45</div>
+      <div class="agenda-content">
+        <div class="agenda-title">🌟 Culture Expectations</div>
+        <div class="agenda-duration">10 minutes</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Brief intro to the BRYC Culture Code and what it looks like day-to-day.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">10:55</div>
+      <div class="agenda-content">
+        <div class="agenda-title">📊 Check-ins in PerformYard</div>
+        <div class="agenda-duration">10 minutes</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Quick introduction to PerformYard and how we'll work through it together on Thursday.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">11:05</div>
+      <div class="agenda-content">
+        <div class="agenda-title">📅 Day-to-Day & Attendance Expectations</div>
+        <div class="agenda-duration">10 minutes</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">As-needed and on-site working expectations. How to log in-site vs on-site time.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">11:10</div>
+      <div class="agenda-content">
+        <div class="agenda-title">🚨 Urgency & Escalation</div>
+        <div class="agenda-duration">5 minutes</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Who to turn to when Angela is out. How to escalate and when.</div>
+      </div>
+    </div>
+    <div class="agenda-row">
+      <div class="agenda-time">11:15</div>
+      <div class="agenda-content">
+        <div class="agenda-title">✅ Wrap-Up & Questions</div>
+        <div class="agenda-duration">Open</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="agenda-note">
+    💡 This page will stay live — come back anytime to reference what we covered during onboarding.
   </div>
 </div>
 

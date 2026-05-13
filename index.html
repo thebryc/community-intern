@@ -236,7 +236,11 @@
   .onboarding-banner-arrow { font-size:18px; color:var(--text-muted); flex-shrink:0; }
 
   /* ── ONBOARDING PAGE ── */
-  .agenda-row { display:grid; grid-template-columns:90px 1fr; gap:0; border-bottom:1px solid var(--border); padding:14px 0; align-items:start; }
+  .agenda-row { display:grid; grid-template-columns:90px 1fr auto; gap:0; border-bottom:1px solid var(--border); padding:14px 0; align-items:start; }
+  .agenda-details { display:none; margin-top:10px; font-size:13.5px; color:var(--text-muted); line-height:1.7; border-top:1px solid var(--border); padding-top:10px; }
+  .agenda-details.open { display:block; }
+  .more-btn { font-family:'proxima-nova',sans-serif; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; border:1px solid var(--border); background:none; cursor:pointer; color:var(--text-muted); white-space:nowrap; margin-top:2px; transition:all .15s; }
+  .more-btn:hover { border-color:var(--pink); color:var(--pink); }
   .agenda-row:last-child { border-bottom:none; }
   .agenda-time { font-size:13px; font-weight:700; color:var(--pink); padding-top:2px; }
   .agenda-content { font-size:14px; color:var(--text); line-height:1.5; }
@@ -371,68 +375,78 @@
   </div>
 
   <div class="section-label" style="margin-bottom:6px;">Agenda</div>
-  <div class="card" style="margin-bottom:1.5rem;">
+<div class="card" style="margin-bottom:1.5rem;">
     <div class="agenda-row">
       <div class="agenda-time">10:00</div>
       <div class="agenda-content">
         <div class="agenda-title">🏢 Building Tour</div>
         <div class="agenda-duration">30 minutes</div>
+        <div class="agenda-details">Walk through both floors, meet staff you pass along the way. Angela will lead the tour.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">10:30</div>
       <div class="agenda-content">
         <div class="agenda-title">👋 Introductions & Roles</div>
         <div class="agenda-duration">5 minutes · Green Building</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Meet your immediate team and learn how everyone's roles connect.</div>
+        <div class="agenda-details">Meet your immediate team and learn how everyone's roles connect. Brief overview of who does what and how your role fits in.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">10:35</div>
       <div class="agenda-content">
         <div class="agenda-title">💻 Onboarding, Tech & Logins</div>
         <div class="agenda-duration">10 minutes</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Housekeeping, tech setup, logins, and introduction to this site.</div>
+        <div class="agenda-details">Housekeeping, tech setup, logins, and introduction to this site. You'll get access to all the tools you need and a walkthrough of how to use this hub.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">10:45</div>
       <div class="agenda-content">
         <div class="agenda-title">🌟 Culture Expectations</div>
         <div class="agenda-duration">10 minutes</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Brief intro to the BRYC Culture Code and what it can look like.</div>
+        <div class="agenda-details">Brief intro to the BRYC Culture Code and what it can look like day-to-day. This is about how we show up — for Fellows, for each other, and for the mission.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">10:55</div>
       <div class="agenda-content">
         <div class="agenda-title">📊 Check-ins in PerformYard</div>
         <div class="agenda-duration">10 minutes</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Quick introduction to PerformYard and how we'll work through it together.</div>
+        <div class="agenda-details">Quick introduction to PerformYard and how we'll work through it together on Thursday. This is how we track goals, check in on progress, and stay aligned.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">11:05</div>
       <div class="agenda-content">
         <div class="agenda-title">📅 Day-to-Day & Attendance Expectations</div>
         <div class="agenda-duration">10 minutes</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Day-to-day, help as-needed and hybrid working expectations. </div>
+        <div class="agenda-details">Day-to-day, help as-needed and hybrid working expectations. How to log in-site vs on-site time and what attendance looks like week to week.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">11:10</div>
       <div class="agenda-content">
         <div class="agenda-title">🚨 Urgency & Escalation</div>
         <div class="agenda-duration">5 minutes</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Who to turn to when Angela is out. When to escalate and how.</div>
+        <div class="agenda-details">Who to turn to when Angela is out. How to escalate and when. The How-To tab on this site is your first stop — then text Angela directly.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
       <div class="agenda-time">11:15</div>
       <div class="agenda-content">
         <div class="agenda-title">✅ Wrap-Up & Questions</div>
         <div class="agenda-duration">Open</div>
+        <div class="agenda-details">Open floor for any questions. Nothing is off limits — if something wasn't clear or you want to go deeper on anything we covered, this is the time.</div>
       </div>
+      <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
   </div>
 
@@ -1406,6 +1420,13 @@ async function deleteLink(id) {
   toast('Link deleted.');
   if (editingLinkId===id) cancelLinkEdit();
 }
+
+function toggleAgenda(btn) {
+  const row = btn.closest('.agenda-row');
+  const details = row.querySelector('.agenda-details');
+  const open = details.classList.toggle('open');
+  btn.textContent = open ? 'Less ▲' : 'More details ▼';
+}  
 </script>
 </body>
 </html>

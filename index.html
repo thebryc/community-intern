@@ -247,6 +247,13 @@
   .agenda-content .agenda-title { font-weight:700; margin-bottom:2px; }
   .agenda-content .agenda-duration { font-size:12px; color:var(--text-muted); }
   .agenda-note { background:var(--gold-pale); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; padding:10px 14px; margin-top:1rem; font-size:13.5px; color:#5c3d00; }
+  .agenda-row { position:relative; }
+  .agenda-edit-btn { position:absolute; top:14px; right:90px; opacity:0; transition:opacity .15s; background:none; border:none; cursor:pointer; font-size:14px; color:var(--text-muted); padding:2px 6px; border-radius:4px; }
+  .agenda-edit-btn:hover { color:var(--pink); }
+  .agenda-row:hover .agenda-edit-btn { opacity:1; }
+  .agenda-edit-input { width:100%; font-family:'proxima-nova',sans-serif; font-size:13.5px; line-height:1.7; color:var(--text-muted); border:1px solid var(--border); border-radius:8px; padding:8px 10px; background:var(--cream); resize:vertical; min-height:80px; margin-top:10px; }
+  .agenda-edit-input:focus { outline:none; border-color:var(--pink); background:#fff; }
+  .agenda-save-btn { font-family:'proxima-nova',sans-serif; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; border:none; background:var(--pink); color:#fff; cursor:pointer; margin-top:6px; }
 </style>
 </head>
 <body>
@@ -376,13 +383,15 @@
 
   <div class="section-label" style="margin-bottom:6px;">Agenda</div>
 <div class="card" style="margin-bottom:1.5rem;">
+<div class="card" style="margin-bottom:1.5rem;">
     <div class="agenda-row">
       <div class="agenda-time">10:00</div>
       <div class="agenda-content">
         <div class="agenda-title">🏢 Building Tour</div>
         <div class="agenda-duration">30 minutes</div>
-        <div class="agenda-details">Walk through both floors, meet staff you pass along the way. Angela will lead the tour.</div>
+        <div class="agenda-details" data-key="tour">Walk through both floors, meet staff you pass along the way. Angela will lead the tour.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'tour')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -390,8 +399,9 @@
       <div class="agenda-content">
         <div class="agenda-title">👋 Introductions & Roles</div>
         <div class="agenda-duration">5 minutes · Green Building</div>
-        <div class="agenda-details">Meet your immediate team and learn how everyone's roles connect. Brief overview of who does what and how your role fits in.</div>
+        <div class="agenda-details" data-key="introductions">Meet your immediate team and learn how everyone's roles connect. Brief overview of who does what and how your role fits in.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'introductions')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -399,8 +409,9 @@
       <div class="agenda-content">
         <div class="agenda-title">💻 Onboarding, Tech & Logins</div>
         <div class="agenda-duration">10 minutes</div>
-        <div class="agenda-details">Housekeeping, tech setup, logins, and introduction to this site. You'll get access to all the tools you need and a walkthrough of how to use this hub.</div>
+        <div class="agenda-details" data-key="onboarding">Housekeeping, tech setup, logins, and introduction to this site. You'll get access to all the tools you need and a walkthrough of how to use this hub.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'onboarding')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -408,8 +419,9 @@
       <div class="agenda-content">
         <div class="agenda-title">🌟 Culture Expectations</div>
         <div class="agenda-duration">10 minutes</div>
-        <div class="agenda-details">Brief intro to the BRYC Culture Code and what it can look like day-to-day. This is about how we show up — for Fellows, for each other, and for the mission.</div>
+        <div class="agenda-details" data-key="culture">Brief intro to the BRYC Culture Code and what it can look like day-to-day. This is about how we show up — for Fellows, for each other, and for the mission.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'culture')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -417,8 +429,9 @@
       <div class="agenda-content">
         <div class="agenda-title">📊 Check-ins in PerformYard</div>
         <div class="agenda-duration">10 minutes</div>
-        <div class="agenda-details">Quick introduction to PerformYard and how we'll work through it together on Thursday. This is how we track goals, check in on progress, and stay aligned.</div>
+        <div class="agenda-details" data-key="performyard">Quick introduction to PerformYard and how we'll work through it together on Thursday. This is how we track goals, check in on progress, and stay aligned.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'performyard')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -426,8 +439,9 @@
       <div class="agenda-content">
         <div class="agenda-title">📅 Day-to-Day & Attendance Expectations</div>
         <div class="agenda-duration">10 minutes</div>
-        <div class="agenda-details">Day-to-day, help as-needed and hybrid working expectations. How to log in-site vs on-site time and what attendance looks like week to week.</div>
+        <div class="agenda-details" data-key="attendance">Day-to-day, help as-needed and hybrid working expectations. How to log in-site vs on-site time and what attendance looks like week to week.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'attendance')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -435,8 +449,9 @@
       <div class="agenda-content">
         <div class="agenda-title">🚨 Urgency & Escalation</div>
         <div class="agenda-duration">5 minutes</div>
-        <div class="agenda-details">Who to turn to when Angela is out. How to escalate and when. The How-To tab on this site is your first stop — then text Angela directly.</div>
+        <div class="agenda-details" data-key="escalation">Who to turn to when Angela is out. How to escalate and when. The How-To tab on this site is your first stop — then text Angela directly.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'escalation')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
     <div class="agenda-row">
@@ -444,22 +459,13 @@
       <div class="agenda-content">
         <div class="agenda-title">✅ Wrap-Up & Questions</div>
         <div class="agenda-duration">Open</div>
-        <div class="agenda-details">Open floor for any questions. Nothing is off limits — if something wasn't clear or you want to go deeper on anything we covered, this is the time.</div>
+        <div class="agenda-details" data-key="wrapup">Open floor for any questions. Nothing is off limits — if something wasn't clear or you want to go deeper on anything we covered, this is the time.</div>
       </div>
+      <button class="agenda-edit-btn" onclick="editAgenda(this,'wrapup')" title="Edit details">✏️</button>
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
   </div>
-
-  <div class="agenda-note">
-    💡 This page will stay live — come back anytime to reference what we covered during onboarding.
-  </div>
-
-  <div class="section-label" style="margin-bottom:6px;margin-top:1.5rem;">Notes</div>
-  <div class="card">
-    <textarea id="onboarding-notes" placeholder="Use this space to jot down anything from the meeting — questions, action items, things to remember..." style="width:100%;min-height:300px;font-family:'proxima-nova',sans-serif;font-size:14px;line-height:1.7;border:none;outline:none;resize:vertical;background:transparent;color:var(--text);"></textarea>
-  </div>
-</div>
-
+  
 <!-- CALENDAR -->
 <div class="page" id="page-calendar">
   <div class="section-label">May – October 2026</div>
@@ -1426,7 +1432,57 @@ function toggleAgenda(btn) {
   const details = row.querySelector('.agenda-details');
   const open = details.classList.toggle('open');
   btn.textContent = open ? 'Less ▲' : 'More details ▼';
-}  
+}
+
+function editAgenda(btn, key) {
+  const row = btn.closest('.agenda-row');
+  const details = row.querySelector('.agenda-details');
+  const current = details.dataset.saved || details.textContent.trim();
+
+  // If already editing, do nothing
+  if (row.querySelector('.agenda-edit-input')) return;
+
+  details.classList.add('open');
+  row.querySelector('.more-btn').textContent = 'Less ▲';
+
+  const input = document.createElement('textarea');
+  input.className = 'agenda-edit-input';
+  input.value = current;
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'agenda-save-btn';
+  saveBtn.textContent = 'Save';
+  saveBtn.onclick = async () => {
+    const val = input.value.trim();
+    details.textContent = val;
+    details.dataset.saved = val;
+    input.remove();
+    saveBtn.remove();
+    await window._fb.setDoc(
+      window._fb.doc(window._fb.db, 'agendaNotes', key),
+      { text: val }
+    );
+    toast('Saved!');
+  };
+
+  details.after(input);
+  input.after(saveBtn);
+  input.focus();
+}
+
+async function loadAgendaNotes() {
+  const keys = ['tour','introductions','onboarding','culture','performyard','attendance','escalation','wrapup'];
+  for (const key of keys) {
+    try {
+      const snap = await window._fb.getDocs(window._fb.collection(window._fb.db, 'agendaNotes'));
+      snap.forEach(d => {
+        const el = document.querySelector(`.agenda-details[data-key="${d.id}"]`);
+        if (el) { el.textContent = d.data().text; el.dataset.saved = d.data().text; }
+      });
+    } catch(e) {}
+    break;
+  }
+}
 </script>
 </body>
 </html>

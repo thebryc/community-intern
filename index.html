@@ -383,7 +383,6 @@
 
   <div class="section-label" style="margin-bottom:6px;">Agenda</div>
 <div class="card" style="margin-bottom:1.5rem;">
-<div class="card" style="margin-bottom:1.5rem;">
     <div class="agenda-row">
       <div class="agenda-time">10:00</div>
       <div class="agenda-content">
@@ -465,6 +464,7 @@
       <button class="more-btn" onclick="toggleAgenda(this)">More details ▼</button>
     </div>
   </div>
+</div>
   
 <!-- CALENDAR -->
 <div class="page" id="page-calendar">
@@ -1116,13 +1116,6 @@ async function deleteWorkflow(id) {
   toast('Workflow deleted.');
   if (editingWfId===id) cancelWorkflowEdit();
 }
-
-async function deleteWorkflow(id) {
-  if (!confirm('Delete this workflow?')) return;
-  await window._fb.deleteDoc(window._fb.doc(window._fb.db,'workflows',id));
-  toast('Workflow deleted.');
-  if (editingWfId===id) cancelWorkflowEdit();
-} 
 
 function toggleWorkflow(header) {
   const body = header.nextElementSibling;
